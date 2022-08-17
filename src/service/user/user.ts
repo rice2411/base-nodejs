@@ -1,3 +1,4 @@
+import { truncateSync } from "fs";
 import { request } from "http";
 import mongoose from "mongoose";
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
@@ -7,10 +8,9 @@ import { IUserService } from "./interface";
 
 const userBAL: IUserService = {
   get: async (id) => {
-    const query = { _id: new mongoose.Types.ObjectId(id)};
+    const query = { _id: new mongoose.Types.ObjectId(id), is_active: true};
     const user = await userQuery.getById(query);
     if (!user) throw new Error("Không tìm thấy.");
-    if(!user.is_active) throw new Error("Tài khoản đã khoá");
     return user;
   },
   list: async () => {},
