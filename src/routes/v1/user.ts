@@ -9,5 +9,7 @@ router
   .route("/:userId")
   .get(requireLogin.requireLogin, userController.get)
   .put(requireLogin.requireLogin, userController.update);
+router.route("/deactive/:userId")
+  .delete(requireLogin.requireLogin, userController.deactive)
 
 export default router;

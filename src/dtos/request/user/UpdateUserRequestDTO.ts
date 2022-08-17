@@ -16,6 +16,7 @@ export default class UpdateUserRequestDTO {
   public _username?: string;
   public _roles?: Object;
   public _avatar?: string;
+  public _is_active?: boolean;
 
   get id() {
     return this._id;
@@ -70,6 +71,15 @@ export default class UpdateUserRequestDTO {
     return this;
   }
 
+  get is_active() {
+    return this._is_active
+  }
+
+  setIs_Active(is_active: boolean) {
+    this._is_active = is_active;
+    return this;
+  }
+
   public toUpdateJSON(): IUpdateUserRequestDTO {
     const request: IUpdateUserRequestDTO = {
       firstname: this._firstname,
@@ -77,6 +87,7 @@ export default class UpdateUserRequestDTO {
       username: this._username,
       roles: this._roles,
       avatar: this._avatar,
+      is_active: this.is_active,
     };
     return request;
   }
@@ -88,7 +99,8 @@ export default class UpdateUserRequestDTO {
       .setFirstName(model.firstname)
       .setLastName(model.lastname)
       .setAvatar(model.avatar)
-      .setRoles(model.roles);
+      .setRoles(model.roles)
+      .setIs_Active(model.is_active)
     return dto.toUpdateJSON();
   }
 }

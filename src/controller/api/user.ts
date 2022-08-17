@@ -44,6 +44,17 @@ const userController = {
       next(error);
     }
   },
+  deactive: async (req, res, next) => {
+    try {
+      const {userId} = req.params
+      const request = new UpdateUserRequestDTO().perpareDTO(req.body);
+      const updateUser = await userService.deactive(request, userId);
+      return res.success("Khoá tài khoản thành công", updateUser);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  },
 };
 
 export default userController;
