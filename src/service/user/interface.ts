@@ -9,4 +9,8 @@ export interface IUserService {
     request: IUpdateUserRequestDTO,
     userId: mongoose.Types._ObjectId
   ) => Promise<any>;
+  deactive: (    
+    request: IUpdateUserRequestDTO,
+    userId: mongoose.Types._ObjectId
+    ) => Promise<any>;
 }
