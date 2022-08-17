@@ -40,6 +40,7 @@ const userController = {
       const updateUser = await userService.update(request, userId);
       return res.success("OK", updateUser);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },

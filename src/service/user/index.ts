@@ -25,8 +25,8 @@ const userService: IUserService = {
     request: UpdateUserRequestDTO,
     userId: mongoose.Types._ObjectId
   ) => {
-    const validErrors = userValidation.updateUserReqest(request);
-    if (validErrors.length) return Promise.reject(validErrors[0]);
+    // const validErrors = userValidation.updateUserReqest(request);
+    // if (validErrors.length) return Promise.reject(new Error(validErrors[0]));
     let result = userBAL.update(request, userId);
     return Promise.resolve(result);
   },
