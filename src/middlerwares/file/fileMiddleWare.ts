@@ -41,7 +41,7 @@ const fileMiddleWare = {
       const properVerb = filesOverLimit.length > 1 ? "are" : "is";
 
       const sentence =
-        `Không thể tải file. ${filesOverLimit.toString()} ${properVerb} over the file size limit of ${MB} MB.`.replaceAll(
+        `Không thể tải file. ${filesOverLimit.toString()} ${properVerb} vượt quá mức dung lượng cho phép: ${MB} MB.`.replaceAll(
           ",",
           ", "
         );
@@ -60,7 +60,7 @@ const fileMiddleWare = {
     if (!req.files)
       return res
         .status(400)
-        .json({ status: "error", message: "Missing files" });
+        .json({ status: "error", message: "Vui lòng chọn file" });
 
     next();
   },
