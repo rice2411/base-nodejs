@@ -31,14 +31,11 @@ const fileService: IFileService = {
   },
   get: async (fileName, res, next) => {
     const savePath = configFilePath(path.extname(fileName));
-    res.sendFile(
-      path.join(__dirname, "../..", savePath + fileName),
-      function (err: any) {
-        if (err) {
-          next(err);
-        }
+    res.sendFile(path.join(__dirname, "../..", savePath + fileName), (err) => {
+      if (err) {
+        next(err);
       }
-    );
+    });
   },
 };
 
