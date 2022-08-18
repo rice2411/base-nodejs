@@ -1,10 +1,7 @@
 import * as express from "express";
 import fileUpload from "express-fileupload";
-import path from "path";
 import { ACCEPTED_FILE } from "../../constants/file";
 import fileController from "../../controller/api/file";
-import uploadController from "../../controller/api/file";
-import authMiddleWare from "../../middlerwares/auth/authMiddleWare";
 import fileMiddleWare from "../../middlerwares/file/fileMiddleWare";
 
 const router = express.Router();
@@ -18,6 +15,6 @@ router
     fileController.upload
   );
 
-router.route("/:image").get(fileController.getFile);
+router.route("/:file").get(fileController.getFile);
 
 export default router;
