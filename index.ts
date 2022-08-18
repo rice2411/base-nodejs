@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Promise from "bluebird";
+import express from "express";
+import path from "path";
 import * as httpStatus from "http-status";
 
 import app from "./config/app";

@@ -1,12 +1,12 @@
-import env from "../../config/env";
-import { ApiResponse } from "../helpers/ApiResponse";
-import { ResponseCodes } from "../helpers/ApiResponseCode";
-import { User } from "../models/user";
+import env from "../../../config/env";
+import { ApiResponse } from "../../helpers/ApiResponse";
+import { ResponseCodes } from "../../helpers/ApiResponseCode";
+import { User } from "../../models/user";
 
-import { tokenService } from "../service/helper/token";
-import { userService } from "../service/user";
+import { tokenService } from "../../service/helper/token";
+import { userService } from "../../service/user";
 
-const requireLogin = {
+const authMiddleWare = {
   requireLogin: async (req, res, next) => {
     if (!req.headers.authorization) {
       return res.errors("Yêu cầu đăng nhập.", 400);
@@ -43,4 +43,4 @@ const requireLogin = {
   },
 };
 
-export default requireLogin;
+export default authMiddleWare;
