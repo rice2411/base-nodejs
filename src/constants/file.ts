@@ -3,7 +3,7 @@ const FILE_SIZE_LIMIT = MB * 1024 * 1024;
 const DEFAULT_FOLDER = "public";
 const FILE_EXNTESION = {
   IMAGE_EXTENSION: [".png", ".jpg", ".jpeg"],
-  AUDIO_EXTENSION: [".mp3", ".mp4"],
+  AUDIO_EXTENSION: [".mp3"],
   DOCUMENT_EXTENSION: [".doc", ".docx", ".txt"],
   VIDEO_EXTENSION: [".mp4"],
 };
