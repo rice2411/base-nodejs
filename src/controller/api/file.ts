@@ -22,7 +22,7 @@ const fileController = {
 
       return res.json({
         status: "success",
-        message: Object.keys(files).toString(),
+        message: "Tải lên thành công",
       });
     } catch (err) {
       next(err);
