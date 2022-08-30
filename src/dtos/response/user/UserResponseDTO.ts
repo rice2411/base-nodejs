@@ -6,7 +6,7 @@ export interface IUserResponseDTO {
   lastname?: String;
   username?: String;
   password?: String;
-  roles?: Object;
+  role?: Object;
   avatar?: String;
   is_active?: boolean;
 }
@@ -15,7 +15,7 @@ export default class UserResponseDTO {
   public _firstname?: String;
   public _lastname?: String;
   public _username?: String;
-  public _roles?: Object;
+  public _role?: Object;
   public _avatar?: String;
 
   get id() {
@@ -53,12 +53,12 @@ export default class UserResponseDTO {
     this._username = _username;
     return this;
   }
-  get roles() {
-    return this._roles;
+  get role() {
+    return this._role;
   }
 
-  setRoles(_roles: Object) {
-    this._roles = _roles;
+  setRole(_role: Object) {
+    this._role = _role;
     return this;
   }
 
@@ -77,7 +77,7 @@ export default class UserResponseDTO {
       firstname: this._firstname,
       lastname: this._lastname,
       username: this._username,
-      roles: this._roles,
+      role: this._role,
       avatar: this._avatar,
     };
 
@@ -91,7 +91,7 @@ export default class UserResponseDTO {
       .setFirstName(model.firstname)
       .setLastName(model.lastname)
       .setAvatar(model.avatar)
-      .setRoles(model.roles)
+      .setRole(model.role)
       .get();
   }
 
@@ -102,7 +102,7 @@ export default class UserResponseDTO {
       .setFirstName(model.firstname)
       .setLastName(model.lastname)
       .setAvatar(model.avatar)
-      .setRoles(model.roles)
+      .setRole(model.role)
       .get();
   }
 
@@ -113,7 +113,7 @@ export default class UserResponseDTO {
       .setFirstName(model.firstname)
       .setLastName(model.lastname)
       .setAvatar(model.avatar)
-      .setRoles(model.roles)
+      .setRole(model.role)
       .get();
   }
 

@@ -5,7 +5,7 @@ export interface IUpdateUserRequestDTO {
   lastname?: string;
   username?: string;
   password?: string;
-  roles?: Object;
+  role?: Object;
   avatar?: string;
   is_active?: boolean;
 }
@@ -14,7 +14,7 @@ export default class UpdateUserRequestDTO {
   public _firstname?: string;
   public _lastname?: string;
   public _username?: string;
-  public _roles?: Object;
+  public _role?: Object;
   public _avatar?: string;
   public _is_active?: boolean;
 
@@ -53,12 +53,12 @@ export default class UpdateUserRequestDTO {
     this._username = username;
     return this;
   }
-  get roles() {
-    return this._roles;
+  get role() {
+    return this._role;
   }
 
-  setRoles(roles: Object) {
-    this._roles = roles;
+  setRole(role: Object) {
+    this._role = role;
     return this;
   }
 
@@ -72,7 +72,7 @@ export default class UpdateUserRequestDTO {
   }
 
   get is_active() {
-    return this._is_active
+    return this._is_active;
   }
 
   setIs_Active(is_active: boolean) {
@@ -85,7 +85,7 @@ export default class UpdateUserRequestDTO {
       firstname: this._firstname,
       lastname: this._lastname,
       username: this._username,
-      roles: this._roles,
+      role: this._role,
       avatar: this._avatar,
       is_active: this.is_active,
     };
@@ -99,8 +99,8 @@ export default class UpdateUserRequestDTO {
       .setFirstName(model.firstname)
       .setLastName(model.lastname)
       .setAvatar(model.avatar)
-      .setRoles(model.roles)
-      .setIs_Active(model.is_active)
+      .setRole(model.role)
+      .setIs_Active(model.is_active);
     return dto.toUpdateJSON();
   }
 }

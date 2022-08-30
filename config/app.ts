@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import cors from "cors";
 import routes from "../src/routes/v1";
 import injector from "../src/helpers/injector";
+import { corsOptions } from "./cors";
 
 const SUCCESS_CODE = 200;
 const app = express();
@@ -16,7 +17,7 @@ app.use(
 
 app.use(bodyParser.json({ limit: "5mb" }));
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.disable("x-powered-by");
 
 // ROUTES FOR OUR API

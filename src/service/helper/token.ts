@@ -4,11 +4,13 @@ import env from "../../../config/env";
 interface IUserTokenInfo {
   _id: string;
   username: string;
+  role: any;
 }
 
 interface IGenerateInfo {
   _id: string;
   username: string;
+  role: any;
   secret: any;
   expire_in: any;
 }
@@ -32,6 +34,7 @@ const tokenService: ITokenService = {
 
     return {
       username: generateInfo.username,
+      role: generateInfo.role,
       token,
     };
   },

@@ -1,3 +1,4 @@
+import env from "../../../config/env";
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 import { authService } from "../../service/auth/auth";
@@ -27,6 +28,15 @@ const authController = {
       return res.success("OK", userResponse);
     } catch (error) {
       next(error);
+    }
+  },
+  verifyToken: async (req, res, next) => {
+    try {
+      const { token } = req.body;
+      tokenService.verifyToken(token, env.jwtSecret);
+      return res.success("OK");
+    } catch (err) {
+      return res.errors("JWT hết hạn", 401);
     }
   },
 };

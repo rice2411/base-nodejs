@@ -46,7 +46,7 @@ const userController = {
   },
   deactive: async (req, res, next) => {
     try {
-      const {userId} = req.params
+      const { userId } = req.params;
       const request = new UpdateUserRequestDTO().perpareDTO(req.body);
       const updateUser = await userService.deactive(request, userId);
       return res.success("Khoá tài khoản thành công", updateUser);

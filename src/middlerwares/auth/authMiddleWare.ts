@@ -23,6 +23,9 @@ const authMiddleWare = {
       req.user = user;
       next();
     } catch (error) {
+      if (error.message == "jwt expired") {
+        res.errors("Yêu cầu đăng nhập.", 401);
+      }
       next(error);
     }
   },

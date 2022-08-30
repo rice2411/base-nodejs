@@ -16,13 +16,9 @@ const UserSchema = new Schema({
     required: true,
     trim: true,
   },
-  roles: {
-    User: {
-      type: Number,
-      default: 2001,
-    },
-    Editor: Number,
-    Admin: Number,
+  role: {
+    type: Number,
+    default: 2001,
   },
   password: {
     type: String,
@@ -41,7 +37,7 @@ export interface IUser extends mongoose.Document {
   firstname: string;
   lastname: string;
   username: string;
-  roles: object;
+  role: object;
   password: string;
   refreshToken: string;
   avatar: string;
