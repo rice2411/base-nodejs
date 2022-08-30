@@ -14,7 +14,7 @@ mongoose
     console.log("****************************");
     console.log("*    Starting Server");
     console.log(`*    DB_URL: ${DB_URL}`);
-    console.log(`*    Port: ${env.port || 8080}`);
+    console.log(`*    Port: ${env.port || 2411}`);
     console.log(`*    NODE_ENV: ${env.env}`);
     console.log(`*    Database: MongoDB`);
     console.log(dbStatus);
