@@ -8,6 +8,7 @@ export interface IUpdateUserRequestDTO {
   role?: Object;
   avatar?: string;
   is_active?: boolean;
+  email?: string;
 }
 export default class UpdateUserRequestDTO {
   public _id?: string;
@@ -17,6 +18,16 @@ export default class UpdateUserRequestDTO {
   public _role?: Object;
   public _avatar?: string;
   public _is_active?: boolean;
+  public _email: string;
+
+  get email() {
+    return this._email;
+  }
+
+  setEmail(email: string) {
+    this._email = email;
+    return this;
+  }
 
   get id() {
     return this._id;
@@ -88,6 +99,7 @@ export default class UpdateUserRequestDTO {
       role: this._role,
       avatar: this._avatar,
       is_active: this.is_active,
+      email: this._email,
     };
     return request;
   }
@@ -100,7 +112,8 @@ export default class UpdateUserRequestDTO {
       .setLastName(model.lastname)
       .setAvatar(model.avatar)
       .setRole(model.role)
-      .setIs_Active(model.is_active);
+      .setIs_Active(model.is_active)
+      .setEmail(model.email);
     return dto.toUpdateJSON();
   }
 }

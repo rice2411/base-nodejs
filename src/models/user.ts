@@ -30,6 +30,11 @@ const UserSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+  },
 });
 
 export interface IUser extends mongoose.Document {
@@ -42,6 +47,7 @@ export interface IUser extends mongoose.Document {
   refreshToken: string;
   avatar: string;
   is_active: boolean;
+  email: string;
   saveAsync(): any;
   removeAsync(): any;
 }

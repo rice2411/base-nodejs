@@ -16,7 +16,7 @@ export default {
   env: "development",
   envName: "dev",
   jwtSecret: "2b06c243-4e10-427a-ba57-7de64e11deee",
-  expiresIn: "5m",
+  expiresIn: "1d",
   db: `mongodb+srv://unclerice:023657@cluster0.q7mqbnf.mongodb.net/CompanyDB?retryWrites=true&w=majority`,
   port: NODE_DOCKER_PORT_STAGING,
   firebaseKey: {

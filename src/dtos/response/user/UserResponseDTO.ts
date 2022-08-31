@@ -9,6 +9,7 @@ export interface IUserResponseDTO {
   role?: Object;
   avatar?: String;
   is_active?: boolean;
+  email: String;
 }
 export default class UserResponseDTO {
   public _id?: String;
@@ -17,6 +18,16 @@ export default class UserResponseDTO {
   public _username?: String;
   public _role?: Object;
   public _avatar?: String;
+  public _email?: String;
+
+  get email() {
+    return this._email;
+  }
+
+  setEmail(email: string) {
+    this._email = email;
+    return this;
+  }
 
   get id() {
     return this._id;
@@ -79,6 +90,7 @@ export default class UserResponseDTO {
       username: this._username,
       role: this._role,
       avatar: this._avatar,
+      email: this._email,
     };
 
     return request;
@@ -92,33 +104,7 @@ export default class UserResponseDTO {
       .setLastName(model.lastname)
       .setAvatar(model.avatar)
       .setRole(model.role)
+      .setEmail(model.email)
       .get();
-  }
-
-  toJSON(model: any) {
-    if (!model) return null;
-    return this.setId(model._id)
-      .setUserName(model.username)
-      .setFirstName(model.firstname)
-      .setLastName(model.lastname)
-      .setAvatar(model.avatar)
-      .setRole(model.role)
-      .get();
-  }
-
-  responseSimpleDTO(model: IUser) {
-    if (!model) return null;
-    return this.setId(model._id)
-      .setUserName(model.username)
-      .setFirstName(model.firstname)
-      .setLastName(model.lastname)
-      .setAvatar(model.avatar)
-      .setRole(model.role)
-      .get();
-  }
-
-  toArrayResponseDTO(models: IUser[]) {
-    if (!models.length) return [];
-    return models.map((model) => new UserResponseDTO().responseDTO(model));
   }
 }
