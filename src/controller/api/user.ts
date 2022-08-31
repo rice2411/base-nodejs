@@ -55,6 +55,15 @@ const userController = {
       next(error);
     }
   },
+  get_me: async (req, res, next) => {
+    try {
+      const user = await userService.get_me(req);
+      return res.success("OK", user);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  },
 };
 
 export default userController;

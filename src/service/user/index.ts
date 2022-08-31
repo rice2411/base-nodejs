@@ -36,7 +36,11 @@ const userService: IUserService = {
   ) => {
     let result = userBAL.deactive(request, userId);
     return Promise.resolve(result);
-  }
+  },
+  get_me: async (req) => {
+    const user = userBAL.get_me(req);
+    return Promise.resolve(user);
+  },
 };
 
 export { userService };

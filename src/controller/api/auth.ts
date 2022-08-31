@@ -32,7 +32,7 @@ const authController = {
   },
   verifyToken: async (req, res, next) => {
     try {
-      const { token } = req.body;
+      const token = req.headers.authorization.split(" ")[1].trim();
       tokenService.verifyToken(token, env.jwtSecret);
       return res.success("OK");
     } catch (err) {

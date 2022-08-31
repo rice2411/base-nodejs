@@ -17,10 +17,11 @@ const authMiddleWare = {
 
       const token = req.headers.authorization.split(" ")[1].trim();
       const info = tokenService.verifyToken(token, env.jwtSecret);
+
       if (!info) return res.errors("Mã token không đúng.");
 
       const user = await userService.get(info._id);
-      req.user = user;
+
       next();
     } catch (error) {
       if (error.message == "jwt expired") {
