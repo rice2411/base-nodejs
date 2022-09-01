@@ -64,6 +64,15 @@ const userController = {
       next(err);
     }
   },
+  removeDataTest: async (req, res, next) => {
+    try {
+      const result = await userService.removeDataTest();
+      return res.success("OK", null);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  },
 };
 
 export default userController;

@@ -14,4 +14,5 @@ export interface IUserService {
     userId: mongoose.Types._ObjectId
   ) => Promise<any>;
   get_me: (req: any) => Promise<any>;
+  removeDataTest: () => Promise<any>;
 }

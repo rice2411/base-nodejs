@@ -55,6 +55,16 @@ const userBAL: IUserService = {
       console.log(err);
     }
   },
+  removeDataTest: async () => {
+    try {
+      const result = await User.remove({
+        username: { $nin: ["rice", "chou"] },
+      });
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
 
 export { userBAL };

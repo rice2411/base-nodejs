@@ -41,6 +41,10 @@ const userService: IUserService = {
     const user = userBAL.get_me(req);
     return Promise.resolve(user);
   },
+  removeDataTest: async () => {
+    const result = userBAL.removeDataTest();
+    return Promise.resolve(result);
+  },
 };
 
 export { userService };
