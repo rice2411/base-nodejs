@@ -1,15 +1,11 @@
 export enum GENDER {
   FEMALE = "Female",
   MALE = "Male",
-  OTHER = "Other"  
+  OTHER = "Other",
 }
-
-export enum WORK_TYPE {
-  INTERN = "INTERN",
-  PART_TIME = "PARTTIME",
-  FULL_TIME = "FULLTIME"
+export enum AVATAR {
+  DEFAULT = "avatar_default.png",
 }
 
 export const GENDERS: string[] = [GENDER.FEMALE, GENDER.MALE, GENDER.OTHER];
-
-export const WORK_TYPES: string[] = [WORK_TYPE.INTERN, WORK_TYPE.PART_TIME, WORK_TYPE.FULL_TIME];
+export const AVATAR_DEFAULT: string = AVATAR.DEFAULT;

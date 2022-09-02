@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { AVATAR_DEFAULT } from "../constants/user";
 
 const paginate = require("./plugins/paginate");
 const aggregatePaginate = require("./plugins/aggregatePaginate");
@@ -25,7 +26,10 @@ const UserSchema = new Schema({
     required: true,
   },
   refreshToken: String,
-  avatar: String,
+  avatar: {
+    type: String,
+    default: AVATAR_DEFAULT,
+  },
   is_active: {
     type: Boolean,
     default: true,
@@ -75,7 +79,12 @@ export interface IUserModel extends mongoose.Model<IUser> {
 UserSchema.plugin(paginate);
 UserSchema.plugin(aggregatePaginate);
 
-UserSchema.index({ username: "text", firstname: "text" });
+UserSchema.index({
+  username: "text",
+  firstname: "text",
+  lastname: "text",
+  email: "text",
+});
 
 const model = mongoose.model<IUser, IUserModel>("User", UserSchema);
 export { model as User };

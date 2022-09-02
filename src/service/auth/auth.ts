@@ -39,8 +39,14 @@ const authService: IAuthService = {
     if (userFound) {
       throw new Error(AuthErrorMessageService.USERNAME_IS_EXIST);
     }
+    const userCount = (await User.countDocuments()) + 1;
     // Register success
-    const newUser = new CreateUserResponseDTO().toJSON(registerRequestDTO);
+    const newUserDTO = new CreateUserResponseDTO().toJSON(registerRequestDTO);
+    const newUser = {
+      ...newUserDTO,
+      firstname: "user" + userCount,
+      lastname: "",
+    };
     const user = new User(newUser);
     const userSave = await user.saveAsync();
     const response = new UserResponseDTO().responseDTO(userSave);

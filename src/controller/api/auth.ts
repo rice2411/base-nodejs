@@ -1,6 +1,7 @@
 import env from "../../../config/env";
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
+import PasswordHash from "../../helpers/PasswordHash";
 import { authService } from "../../service/auth/auth";
 import { tokenService } from "../../service/helper/token";
 import authValidation from "../../validation/admin/authValidation";
@@ -21,9 +22,12 @@ const authController = {
   },
   register: async (req, res, next) => {
     try {
-      const registerRequest = new RegisterRequestDTO(req.body);
+      let registerRequest = new RegisterRequestDTO(req.body);
       const validErrors = userValidation.registerRequest(registerRequest);
       if (validErrors.length) return res.errors(validErrors[0], 400);
+      registerRequest._password = PasswordHash.generate(
+        registerRequest._password
+      );
       const userResponse = await authService.register(registerRequest);
       return res.success("OK", userResponse);
     } catch (error) {

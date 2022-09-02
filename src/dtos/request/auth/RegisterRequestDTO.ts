@@ -6,7 +6,7 @@ export default class RegisterRequestDTO {
 
   constructor({ username, password }) {
     this._username = username;
-    this._password = PasswordHash.generate(password);
+    this._password = password;
   }
 
   get username() {
