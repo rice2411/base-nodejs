@@ -36,9 +36,9 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-
     trim: true,
   },
+  phoneNumber: String,
 });
 
 export interface IUser extends mongoose.Document {
@@ -52,6 +52,7 @@ export interface IUser extends mongoose.Document {
   avatar: string;
   is_active: boolean;
   email: string;
+  phoneNumber: string;
   saveAsync(): any;
   removeAsync(): any;
 }

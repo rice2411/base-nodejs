@@ -10,6 +10,7 @@ export interface IUserResponseDTO {
   avatar?: String;
   is_active?: boolean;
   email: String;
+  phoneNumber: String;
 }
 export default class UserResponseDTO {
   public _id?: String;
@@ -19,7 +20,16 @@ export default class UserResponseDTO {
   public _role?: Object;
   public _avatar?: String;
   public _email?: String;
+  public _phoneNumber?: String;
 
+  get phoneNumber() {
+    return this._email;
+  }
+
+  setPhoneNumber(phoneNumber: string) {
+    this._phoneNumber = phoneNumber;
+    return this;
+  }
   get email() {
     return this._email;
   }
@@ -91,6 +101,7 @@ export default class UserResponseDTO {
       role: this._role,
       avatar: this._avatar,
       email: this._email,
+      phoneNumber: this._phoneNumber,
     };
 
     return request;
@@ -105,6 +116,7 @@ export default class UserResponseDTO {
       .setAvatar(model.avatar)
       .setRole(model.role)
       .setEmail(model.email)
+      .setPhoneNumber(model.phoneNumber)
       .get();
   }
 }
