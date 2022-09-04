@@ -30,6 +30,12 @@ const userBAL: IUserService = {
     if (request.avatar) {
       user.avatar = request.avatar;
     }
+    if (request.email) {
+      user.email = request.email;
+    }
+    if (request.phoneNumber) {
+      user.phoneNumber = request.phoneNumber;
+    }
 
     const userUpdate = await user.saveAsync();
 

@@ -36,7 +36,7 @@ const userController = {
   update: async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const request = new UpdateUserRequestDTO().perpareDTO(req.body);
+      const request = new UpdateUserRequestDTO().requestDTO(req.body);
       const updateUser = await userService.update(request, userId);
       return res.success("OK", updateUser);
     } catch (error) {
@@ -47,7 +47,7 @@ const userController = {
   deactive: async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const request = new UpdateUserRequestDTO().perpareDTO(req.body);
+      const request = new UpdateUserRequestDTO().requestDTO(req.body);
       const updateUser = await userService.deactive(request, userId);
       return res.success("Khoá tài khoản thành công", updateUser);
     } catch (error) {
