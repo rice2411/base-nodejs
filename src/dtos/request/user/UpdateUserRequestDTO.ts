@@ -10,6 +10,7 @@ export interface IUpdateUserRequestDTO {
   is_active?: boolean;
   email?: string;
   phoneNumber?: string;
+  avatarUpload?: Object;
 }
 export default class UpdateUserRequestDTO {
   public _id?: string;
@@ -21,6 +22,16 @@ export default class UpdateUserRequestDTO {
   public _is_active?: boolean;
   public _email?: string;
   public _phoneNumber?: string;
+  public _avatarUpload?: Object;
+
+  get avatarUpload() {
+    return this._phoneNumber;
+  }
+
+  setAvatarUpload(avatarUpload: Object) {
+    this._avatarUpload = avatarUpload;
+    return this;
+  }
 
   get phoneNUmber() {
     return this._phoneNumber;
@@ -111,6 +122,7 @@ export default class UpdateUserRequestDTO {
       is_active: this.is_active,
       email: this._email,
       phoneNumber: this._phoneNumber,
+      avatarUpload: this._avatarUpload,
     };
     return request;
   }
@@ -125,7 +137,8 @@ export default class UpdateUserRequestDTO {
       .setRole(model.role)
       .setIs_Active(model.is_active)
       .setEmail(model.email)
-      .setPhoneNumber(model.phoneNUmber);
+      .setAvatarUpload(model.avatarUpload)
+      .setPhoneNumber(model.phoneNumber);
     return dto.toUpdateJSON();
   }
 }

@@ -30,11 +30,8 @@ const userService: IUserService = {
     let result = userBAL.update(request, userId);
     return Promise.resolve(result);
   },
-  deactive: async (
-    request: UpdateUserRequestDTO,
-    userId: mongoose.Types._ObjectId
-  ) => {
-    let result = userBAL.deactive(request, userId);
+  deactive: async (listUserId: [mongoose.Types._ObjectId]) => {
+    let result = userBAL.deactive(listUserId);
     return Promise.resolve(result);
   },
   get_me: async (req) => {

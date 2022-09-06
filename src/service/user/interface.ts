@@ -9,10 +9,7 @@ export interface IUserService {
     request: IUpdateUserRequestDTO,
     userId: mongoose.Types._ObjectId
   ) => Promise<any>;
-  deactive: (
-    request: IUpdateUserRequestDTO,
-    userId: mongoose.Types._ObjectId
-  ) => Promise<any>;
+  deactive: (listUserId: [mongoose.Types._ObjectId]) => Promise<any>;
   get_me: (req: any) => Promise<any>;
   removeDataTest: () => Promise<any>;
 }

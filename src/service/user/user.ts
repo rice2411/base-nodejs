@@ -1,11 +1,11 @@
-import { truncateSync } from "fs";
-import { request } from "http";
 import mongoose from "mongoose";
 import { userService } from ".";
 import env from "../../../config/env";
+
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
 import { User } from "../../models";
 import { userQuery } from "../../queries";
+import fileService from "../file/file";
 import { tokenService } from "../helper/token";
 import { IUserService } from "./interface";
 
@@ -27,10 +27,21 @@ const userBAL: IUserService = {
     if (request.lastname) {
       user.lastname = request.lastname;
     }
-    if (request.avatar) {
-      user.avatar = request.avatar;
+    if (request.avatarUpload) {
+      const file = request.avatarUpload;
+      const response = await fileService.upload(file);
+      if (response) {
+        user.avatar = response.name;
+      }
     }
     if (request.email) {
+      const emailFound = await User.findOne({
+        email: request.email,
+      });
+
+      if (emailFound && user.email != request.email) {
+        return Promise.reject(Error("Email này đã có người sử dụng!"));
+      }
       user.email = request.email;
     }
     if (request.phoneNumber) {
@@ -42,13 +53,16 @@ const userBAL: IUserService = {
     const response = new UserResponseDTO().responseDTO(userUpdate);
     return response;
   },
-  deactive: async (request, userId) => {
-    const user = await User.findOne({ _id: userId });
-    if (!user) return Promise.reject(new Error("Không tìm thấy người dùng."));
-
-    user.is_active = request.is_active;
-
-    const userUpdate = await user.saveAsync();
+  deactive: async (listUserId) => {
+    const result = await Promise.all(
+      listUserId.map(async (userId) => {
+        const user = await User.findOne({ _id: userId });
+        if (!user)
+          return Promise.reject(new Error("Không tìm thấy người dùng."));
+        user.is_active = false;
+        await user.saveAsync();
+      })
+    );
     return "Khoá tài khoản thành công";
   },
   get_me: async (req) => {

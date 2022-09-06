@@ -36,8 +36,20 @@ const userController = {
   update: async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const request = new UpdateUserRequestDTO().requestDTO(req.body);
-      const updateUser = await userService.update(request, userId);
+      const files = req.files;
+      let params = {};
+      if (files) {
+        params = {
+          ...req.body,
+          avatarUpload: files,
+        };
+      } else {
+        params = {
+          ...req.body,
+        };
+      }
+      const requestUpdate = new UpdateUserRequestDTO().requestDTO(params);
+      const updateUser = await userService.update(requestUpdate, userId);
       return res.success("OK", updateUser);
     } catch (error) {
       console.log(error);
@@ -46,9 +58,8 @@ const userController = {
   },
   deactive: async (req, res, next) => {
     try {
-      const { userId } = req.params;
-      const request = new UpdateUserRequestDTO().requestDTO(req.body);
-      const updateUser = await userService.deactive(request, userId);
+      const listUserId = req.body.listUserId;
+      const updateUser = await userService.deactive(listUserId);
       return res.success("Khoá tài khoản thành công", updateUser);
     } catch (error) {
       console.log(error);

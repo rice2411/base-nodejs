@@ -10,15 +10,12 @@ interface IFileService {
 
 const fileService: IFileService = {
   upload: async (files) => {
+    let fileName = "";
     Object.keys(files).forEach((key) => {
       let extFile = path.extname(files[key].name);
       let savePath = configFilePath(extFile);
-      const filepath = path.join(
-        __dirname,
-        "../..",
-        savePath,
-        uuidv4() + extFile
-      );
+      fileName = uuidv4() + extFile;
+      const filepath = path.join(__dirname, "../..", savePath, fileName);
       files[key].mv(filepath, (err) => {
         if (err) return Promise.reject({ status: "error", message: err });
       });
@@ -27,6 +24,7 @@ const fileService: IFileService = {
     return Promise.resolve({
       status: "success",
       message: "Tải lên thành công",
+      name: fileName,
     });
   },
   get: async (fileName, res, next) => {
