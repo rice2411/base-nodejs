@@ -14,5 +14,5 @@ export interface IUserService {
   get_me: (req: any) => Promise<any>;
   removeDataTest: () => Promise<any>;
   importListUser: (listUser: Array<RegisterRequestDTO>) => Promise<any>;
-  create: (request: RegisterRequestDTO, index?: number) => Promise<any>;
+  create: (request: RegisterRequestDTO, userCount?: number) => Promise<any>;
 }
