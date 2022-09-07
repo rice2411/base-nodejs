@@ -59,8 +59,8 @@ _Below is an example of how you can instruct your audience on installing and set
    npm i
    ```
 2. Enter your DB URL in config folder
-    ```js
-  db: `yourdb`,
+   ```js
+    db: `yourdb`
    ```
 3. Run the project
    ```sh
