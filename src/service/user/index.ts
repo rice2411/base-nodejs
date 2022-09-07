@@ -42,6 +42,14 @@ const userService: IUserService = {
     const result = userBAL.removeDataTest();
     return Promise.resolve(result);
   },
+  importListUser: async (listUser) => {
+    const result = userBAL.importListUser(listUser);
+    return Promise.resolve(result);
+  },
+  create: async (request) => {
+    const result = userBAL.create(request);
+    return Promise.resolve(result);
+  },
 };
 
 export { userService };

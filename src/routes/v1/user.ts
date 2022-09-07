@@ -9,6 +9,13 @@ const router = express.Router({ mergeParams: true });
 router.route("/").get(authMiddleWare.requireLogin, userController.list);
 router.route("/get-me").get(authMiddleWare.requireLogin, userController.get_me);
 router
+  .route("/import-list")
+  .post(
+    authMiddleWare.requireLogin,
+    authorMiddleWare.checkUserRole(ROLE.ROOT),
+    userController.importListUser
+  );
+router
   .route("/remove-test-data")
   .delete(
     authMiddleWare.requireLogin,

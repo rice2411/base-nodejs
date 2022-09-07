@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 import { userService } from ".";
 import env from "../../../config/env";
+import CreateUserResponseDTO from "../../dtos/response/user/CreateUserResponseDTO";
 
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
 import { User } from "../../models";
 import { userQuery } from "../../queries";
+import { AuthErrorMessageService } from "../auth/errorMessage";
 import fileService from "../file/file";
 import { tokenService } from "../helper/token";
 import { IUserService } from "./interface";
@@ -54,7 +56,7 @@ const userBAL: IUserService = {
     return response;
   },
   deactive: async (listUserId) => {
-    const result = await Promise.all(
+    await Promise.all(
       listUserId.map(async (userId) => {
         const user = await User.findOne({ _id: userId });
         if (!user)
@@ -84,6 +86,50 @@ const userBAL: IUserService = {
     } catch (err) {
       console.log(err);
     }
+  },
+  importListUser: async (listUser) => {
+    let canImport = true;
+    await Promise.all(
+      listUser.map(async (user) => {
+        const userFound = await User.findOne({ username: user.username });
+        if (userFound) {
+          canImport = false;
+          return Promise.reject(new Error("Tên đăng nhập đã tồn tại"));
+        }
+      })
+    );
+    if (canImport) {
+      await Promise.all(
+        listUser.map(async (user, index) => {
+          await userBAL.create(user, index);
+        })
+      );
+      return Promise.resolve({
+        message: "Nhập dữ liệu thành công",
+      });
+    }
+  },
+  create: async (request, userCount) => {
+    const userFound = await User.findOne({
+      username: request._username,
+    });
+    if (userFound) {
+      throw new Error(AuthErrorMessageService.USERNAME_IS_EXIST);
+    }
+    const userCountCurrent = userCount
+      ? (await User.countDocuments()) + 1 + userCount
+      : (await User.countDocuments()) + 1;
+    // Register success
+    const newUserDTO = new CreateUserResponseDTO().toJSON(request);
+    const newUser = {
+      ...newUserDTO,
+      firstname: "user" + userCountCurrent,
+      lastname: "",
+    };
+    const user = new User(newUser);
+    const userSave = await user.saveAsync();
+    const response = new UserResponseDTO().responseDTO(userSave);
+    return response;
   },
 };
 

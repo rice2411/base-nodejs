@@ -2,6 +2,7 @@ import { userService } from "../../service/user";
 import QueryOptions from "../../dtos/QueryOptions";
 import { PAGING_DEFAULT } from "../../constants/paging";
 import UpdateUserRequestDTO from "../../dtos/request/user/UpdateUserRequestDTO";
+import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 
 const userController = {
   list: async (req, res, next) => {
@@ -79,6 +80,21 @@ const userController = {
     try {
       const result = await userService.removeDataTest();
       return res.success("OK", null);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  },
+  importListUser: async (req, res, next) => {
+    try {
+      const { listUser } = req.body;
+      let request = [];
+      listUser.map((user) => {
+        const newUser = new RegisterRequestDTO(user);
+        request.push(newUser);
+      });
+      const result = await userService.importListUser(request);
+      return res.success("OK", result);
     } catch (err) {
       console.log(err);
       next(err);
