@@ -1,1 +1,0 @@
-{"version":3,"file":"SendMailRequestDTO.js","sourceRoot":"","sources":["../../../../../src/dtos/request/mail/SendMailRequestDTO.ts"],"names":[],"mappings":";;AAEA,MAAqB,kBAAkB;IAGrC,YAAY,EAAE,KAAK,EAAE;QACnB,IAAI,CAAC,MAAM,GAAG,KAAK,CAAC;IACtB,CAAC;IAED,IAAI,KAAK;QACP,OAAO,IAAI,CAAC,MAAM,CAAC;IACrB,CAAC;CACF;AAVD,qCAUC"}
