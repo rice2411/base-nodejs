@@ -25,7 +25,7 @@ const notFoundHandler = (req, res, next) => {
 };
 app.use(cors());
 // listen on port config.port
-app.listen(env.port || 3000, () => {
+app.listen(env.port || 3002, () => {
   debug(`server started on port ${env.port} (${env.env})`);
 });
 
