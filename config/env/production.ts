@@ -13,7 +13,7 @@ const {
 } = process.env;
 
 export default {
-  env: "development",
+  env: "production",
   envName: "dev",
   jwtSecret: "2b06c243-4e10-427a-ba57-7de64e11deee",
   expiresIn: "1d",
