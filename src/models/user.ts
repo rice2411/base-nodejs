@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { AVATAR_DEFAULT } from "../constants/user";
 
 const paginate = require("./plugins/paginate");
@@ -41,7 +41,7 @@ const UserSchema = new Schema({
 });
 
 export interface IUser extends mongoose.Document {
-  _id: string;
+  _id: Types.ObjectId;
   firstname: string;
   lastname: string;
   username: string;

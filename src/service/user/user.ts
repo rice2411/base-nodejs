@@ -10,6 +10,7 @@ import { AuthErrorMessageService } from "../auth/errorMessage";
 import fileService from "../file/file";
 import { tokenService } from "../helper/token";
 import { IUserService } from "./interface";
+import { ObjectId } from "mongoose";
 
 const userBAL: IUserService = {
   get: async (id) => {
@@ -20,7 +21,9 @@ const userBAL: IUserService = {
   },
   list: async () => {},
   update: async (request, userId) => {
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne({
+      _id: new mongoose.Types.ObjectId(userId),
+    });
     if (!user) return Promise.reject(new Error("Không tìm thấy người dùng."));
 
     if (request.firstname) {
@@ -58,7 +61,9 @@ const userBAL: IUserService = {
   deactive: async (listUserId) => {
     await Promise.all(
       listUserId.map(async (userId) => {
-        const user = await User.findOne({ _id: userId });
+        const user = await User.findOne({
+          _id: new mongoose.Types.ObjectId(userId),
+        });
         if (!user)
           return Promise.reject(new Error("Không tìm thấy người dùng."));
         user.is_active = false;

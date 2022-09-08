@@ -1,7 +1,8 @@
+import { Types } from "mongoose";
 import { IUser } from "../../../models/user";
 
 export interface IUserResponseDTO {
-  _id?: String;
+  _id?: Types.ObjectId;
   firstname?: String;
   lastname?: String;
   username?: String;
@@ -13,7 +14,7 @@ export interface IUserResponseDTO {
   phoneNumber: String;
 }
 export default class UserResponseDTO {
-  public _id?: String;
+  public _id?: Types.ObjectId;
   public _firstname?: String;
   public _lastname?: String;
   public _username?: String;
@@ -43,7 +44,7 @@ export default class UserResponseDTO {
     return this._id;
   }
 
-  setId(id: String) {
+  setId(id: Types.ObjectId) {
     this._id = id;
     return this;
   }
