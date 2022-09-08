@@ -1,6 +1,10 @@
 import nodemailer from "nodemailer";
 import { IMailService } from "./interface";
 import env from "../../../config/env";
+import otpGenerator from 'otp-generator' 
+import { Otp } from '../../models/index'
+import {SALT_ROUNDS} from '../../constants/bcrypt'
+import bcrypt from 'bcrypt'
 
 const mailService: IMailService = {
   sendMail: async (request) => {
@@ -15,8 +19,8 @@ const mailService: IMailService = {
       await transporter.sendMail({
         from: env.mail.root,
         to: request.email,
-        subject: "TEST",
-        html: "</h1>TEST EMAIL</>",
+        subject: "Xác nhận OTP",
+        html: `</h1>Mã OTP của bạn là: ${request.otp} </>`,
       });
       return Promise.resolve({
         message: "Yêu cầu thành công! Vui lòng check hộp thư của bạn",
