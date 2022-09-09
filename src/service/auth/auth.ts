@@ -12,7 +12,9 @@ import { OTP } from "../../models/index";
 import bcrypt from "bcrypt";
 import { generateOtp } from "../helper/otp";
 import mailService from "../mail/index";
-import SendMailOTPRequestDTO from "../../dtos/request/mail/SendMailOTPRequestDTO";
+import MAIL_TEMPLATE from "../../constants/mail";
+import { options } from "joi";
+import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
 
 const authService: IAuthService = {
   login: async (loginRequestDTO: LoginRequestDTO) => {
@@ -40,24 +42,31 @@ const authService: IAuthService = {
     return response;
   },
   sendMailOTP: async (forgotPasswordRequestDTO: ForgotPasswordRequestDTO) => {
-    const user = await User.findOne({ email: forgotPasswordRequestDTO.email });
+    const userEmail = forgotPasswordRequestDTO.email;
+    const user = await User.findOne({ email: userEmail });
     if (!user) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
     const otpGenarate = generateOtp();
     await OTP.create({
       userId: user._id,
       otp: await HashFunction.generate(otpGenarate),
     });
-    const sendMailOTPRequestDTO = new SendMailOTPRequestDTO({
-      email: user.email,
-      otp: otpGenarate,
-    });
+
+    const templateMail = MAIL_TEMPLATE.OTP_TEMPLATE(otpGenarate);
+
+    const options = {
+      email: userEmail,
+      options: templateMail,
+    };
+
+    const sendMailOTPRequestDTO = new SendMailRequestDTO(options);
+
     const response = await mailService.sendMail(sendMailOTPRequestDTO);
     return response;
   },
   verifyOTP: async (OTPRequest) => {
-    const timeSubmit = Date.now();
-    const hash = HashFunction.generate(OTPRequest._otp);
-    const otp = await OTP.findOne(otp: HashFunction.verify(OTPRequest._otp,otp));
+    // const timeSubmit = Date.now();
+    // const hash = HashFunction.generate(OTPRequest._otp);
+    // const otp = await OTP.findOne(otp: HashFunction.verify(OTPRequest._otp,otp));
     return "OK";
   },
 };

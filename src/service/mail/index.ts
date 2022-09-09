@@ -15,11 +15,10 @@ const mailService: IMailService = {
       await transporter.sendMail({
         from: env.mail.root,
         to: request.email,
-        subject: "Xác nhận OTP",
-        html: `</h1>Mã OTP của bạn là: ${request.otp} </>`,
+        ...request.options,
       });
       return Promise.resolve({
-        message: "Yêu cầu thành công! Vui lòng check hộp thư của bạn",
+        message: "Yêu cầu thành công! Vui lòng kiểm tra hộp thư của bạn",
       });
     } catch (err) {
       return Promise.reject({
