@@ -1,13 +1,14 @@
 import env from "../../../config/env";
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
-import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailDTORequestDTO"
+import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import HashFunction from "../../helpers/HashFunction";
 import { authService } from "../../service/auth/auth";
 import { tokenService } from "../../service/helper/token";
 import authValidation from "../../validation/admin/authValidation";
 import userValidation from "../../validation/admin/userValidation";
-import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailDTORequestDTO";
+import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
+import OTPRequestDTO from "../../dtos/request/auth/OTPRequestDTO";
 
 const authController = {
   login: async (req, res, next) => {
@@ -51,9 +52,18 @@ const authController = {
       const OTPResponse = await authService.sendMailOTP(getMailDTORequest);
       return res.success("OK", OTPResponse);
     } catch (error) {
-      next(error)
+      next(error);
     }
-  }
+  },
+  verifyOTP: async (req, res, next) => {
+    try {
+      const OTPRequest = new OTPRequestDTO(req.body);
+      const OTPResponse = await authService.verifyOTP(OTPRequest);
+      return res.success("OK", OTPResponse);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 export default authController;

@@ -2,16 +2,16 @@ import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 import CreateUserResponseDTO from "../../dtos/response/user/CreateUserResponseDTO";
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
-import ForgotPasswordRequestDTO from '../../dtos/request/auth/GetMailDTORequestDTO'
+import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import HashFunction from "../../helpers/HashFunction";
 import { User } from "../../models/user";
 import { userService } from "../user";
 import { AuthErrorMessageService } from "./errorMessage";
-import { IAuthService } from './interface'
-import { OTP } from '../../models/index'
-import bcrypt from 'bcrypt'
+import { IAuthService } from "./interface";
+import { OTP } from "../../models/index";
+import bcrypt from "bcrypt";
 import { generateOtp } from "../helper/otp";
-import mailService from '../mail/index'
+import mailService from "../mail/index";
 import SendMailOTPRequestDTO from "../../dtos/request/mail/SendMailOTPRequestDTO";
 
 const authService: IAuthService = {
@@ -39,21 +39,27 @@ const authService: IAuthService = {
     const response = await userService.create(registerRequestDTO);
     return response;
   },
-  sendMailOTP: async( forgotPasswordRequestDTO : ForgotPasswordRequestDTO ) => {
-    const user = await User.findOne({email: forgotPasswordRequestDTO.email})
-    if(!user) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST)
-    const otpGenarate = generateOtp()
+  sendMailOTP: async (forgotPasswordRequestDTO: ForgotPasswordRequestDTO) => {
+    const user = await User.findOne({ email: forgotPasswordRequestDTO.email });
+    if (!user) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+    const otpGenarate = generateOtp();
     await OTP.create({
       userId: user._id,
-      otp: await HashFunction.generate(otpGenarate)
-    })
+      otp: await HashFunction.generate(otpGenarate),
+    });
     const sendMailOTPRequestDTO = new SendMailOTPRequestDTO({
       email: user.email,
-      otp: otpGenarate
-    })
-    const response = await mailService.sendMail(sendMailOTPRequestDTO)
-    return response
-  }
+      otp: otpGenarate,
+    });
+    const response = await mailService.sendMail(sendMailOTPRequestDTO);
+    return response;
+  },
+  verifyOTP: async (OTPRequest) => {
+    const timeSubmit = Date.now();
+    const hash = HashFunction.generate(OTPRequest._otp);
+    const otp = await OTP.findOne(otp: HashFunction.verify(OTPRequest._otp,otp));
+    return "OK";
+  },
 };
 
 export { authService };
