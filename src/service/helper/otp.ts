@@ -1,7 +1,6 @@
 import otpGenerator from 'otp-generator' 
+import {OTP_CONFIG} from '../../constants/OTP'
 
 export const generateOtp = () => {
-    return otpGenerator.generate(6, {
-        digits: true, alphabets: false, upperCase: false, specialChars: false
-    });
+    return otpGenerator.generate(OTP_CONFIG.length, OTP_CONFIG.options);
 }

@@ -1,4 +1,4 @@
-export default class ForgotPasswordRequestDTO {
+export default class GetMailOTPRequestDTO {
     public _email: string;
   
     constructor({ email }) {

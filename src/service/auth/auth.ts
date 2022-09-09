@@ -2,18 +2,17 @@ import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 import CreateUserResponseDTO from "../../dtos/response/user/CreateUserResponseDTO";
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
-import ForgotPasswordRequestDTO from '../../dtos/request/auth/ForgotPasswordRequestDTO'
-import PasswordHash from "../../helpers/PasswordHash";
+import ForgotPasswordRequestDTO from '../../dtos/request/auth/GetMailDTORequestDTO'
+import HashFunction from "../../helpers/HashFunction";
 import { User } from "../../models/user";
 import { userService } from "../user";
 import { AuthErrorMessageService } from "./errorMessage";
 import { IAuthService } from './interface'
-import { Otp } from '../../models/index'
-import {SALT_ROUNDS} from '../../constants/bcrypt'
+import { OTP } from '../../models/index'
 import bcrypt from 'bcrypt'
 import { generateOtp } from "../helper/otp";
 import mailService from '../mail/index'
-import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
+import SendMailOTPRequestDTO from "../../dtos/request/mail/SendMailOTPRequestDTO";
 
 const authService: IAuthService = {
   login: async (loginRequestDTO: LoginRequestDTO) => {
@@ -26,7 +25,7 @@ const authService: IAuthService = {
     if (!user.is_active)
       throw new Error(AuthErrorMessageService.ACCOUNT_IS_LOCK);
     // Check password is correct
-    const isValid = PasswordHash.verify(
+    const isValid = HashFunction.verify(
       loginRequestDTO.password,
       user.password
     );
@@ -40,19 +39,19 @@ const authService: IAuthService = {
     const response = await userService.create(registerRequestDTO);
     return response;
   },
-  forgotPassword: async( forgotPasswordRequestDTO : ForgotPasswordRequestDTO ) => {
+  sendMailOTP: async( forgotPasswordRequestDTO : ForgotPasswordRequestDTO ) => {
     const user = await User.findOne({email: forgotPasswordRequestDTO.email})
-    if(!user) throw new Error(AuthErrorMessageService.USERNAME_IS_NOT_EXIST)
+    if(!user) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST)
     const otpGenarate = generateOtp()
-    const otp = await Otp.create({
-      userId: user._id, 
-      otp: await bcrypt.hash(otpGenarate, SALT_ROUNDS)
+    await OTP.create({
+      userId: user._id,
+      otp: await HashFunction.generate(otpGenarate)
     })
-    const sendMailRequestDTO = new SendMailRequestDTO({
+    const sendMailOTPRequestDTO = new SendMailOTPRequestDTO({
       email: user.email,
       otp: otpGenarate
     })
-    const response = mailService.sendMail(sendMailRequestDTO)
+    const response = await mailService.sendMail(sendMailOTPRequestDTO)
     return response
   }
 };
