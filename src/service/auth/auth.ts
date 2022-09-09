@@ -2,15 +2,18 @@ import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 import CreateUserResponseDTO from "../../dtos/response/user/CreateUserResponseDTO";
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
+import ForgotPasswordRequestDTO from '../../dtos/request/auth/ForgotPasswordRequestDTO'
 import PasswordHash from "../../helpers/PasswordHash";
 import { User } from "../../models/user";
 import { userService } from "../user";
 import { AuthErrorMessageService } from "./errorMessage";
-
-interface IAuthService {
-  login: (loginRequestDTO: LoginRequestDTO) => Promise<any>;
-  register: (registerRequestDTO: RegisterRequestDTO) => Promise<any>;
-}
+import { IAuthService } from './interface'
+import { Otp } from '../../models/index'
+import {SALT_ROUNDS} from '../../constants/bcrypt'
+import bcrypt from 'bcrypt'
+import { generateOtp } from "../helper/otp";
+import mailService from '../mail/index'
+import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
 
 const authService: IAuthService = {
   login: async (loginRequestDTO: LoginRequestDTO) => {
@@ -37,6 +40,21 @@ const authService: IAuthService = {
     const response = await userService.create(registerRequestDTO);
     return response;
   },
+  forgotPassword: async( forgotPasswordRequestDTO : ForgotPasswordRequestDTO ) => {
+    const user = await User.findOne({email: forgotPasswordRequestDTO.email})
+    if(!user) throw new Error(AuthErrorMessageService.USERNAME_IS_NOT_EXIST)
+    const otpGenarate = generateOtp()
+    const otp = await Otp.create({
+      userId: user._id, 
+      otp: await bcrypt.hash(otpGenarate, SALT_ROUNDS)
+    })
+    const sendMailRequestDTO = new SendMailRequestDTO({
+      email: user.email,
+      otp: otpGenarate
+    })
+    const response = mailService.sendMail(sendMailRequestDTO)
+    return response
+  }
 };
 
 export { authService };

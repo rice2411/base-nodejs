@@ -1,6 +1,7 @@
 import env from "../../../config/env";
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
+import ForgotPasswordRequestDTO from "../../dtos/request/auth/ForgotPasswordRequestDTO"
 import PasswordHash from "../../helpers/PasswordHash";
 import { authService } from "../../service/auth/auth";
 import { tokenService } from "../../service/helper/token";
@@ -43,6 +44,15 @@ const authController = {
       return res.errors("JWT hết hạn", 401);
     }
   },
+  forgotPassword: async (req, res, next) => {
+    try {
+      const forgotPasswordRequest = new ForgotPasswordRequestDTO(req.body);
+      const userResponse = await authService.forgotPassword(forgotPasswordRequest);
+      return res.success("OK", userResponse);
+    } catch (error) {
+      next(error)
+    }
+  }
 };
 
 export default authController;
