@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-interface IOtp {
+interface IOTP {
     userId: string;
     otp: string;
 }
 
-const OtpSchema = new Schema(
+const OTPSchema = new Schema(
     {
         userId: {
             type: String,
@@ -23,6 +23,6 @@ const OtpSchema = new Schema(
     }
 );
 
-const model = mongoose.model<IOtp>('OTP', OtpSchema);
+const model = mongoose.model<IOTP>('OTP', OTPSchema);
 
-export { model as Otp };
+export { model as OTP };

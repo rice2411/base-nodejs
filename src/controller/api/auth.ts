@@ -1,12 +1,13 @@
 import env from "../../../config/env";
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
-import ForgotPasswordRequestDTO from "../../dtos/request/auth/ForgotPasswordRequestDTO"
-import PasswordHash from "../../helpers/PasswordHash";
+import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailDTORequestDTO"
+import HashFunction from "../../helpers/HashFunction";
 import { authService } from "../../service/auth/auth";
 import { tokenService } from "../../service/helper/token";
 import authValidation from "../../validation/admin/authValidation";
 import userValidation from "../../validation/admin/userValidation";
+import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailDTORequestDTO";
 
 const authController = {
   login: async (req, res, next) => {
@@ -26,7 +27,7 @@ const authController = {
       let registerRequest = new RegisterRequestDTO(req.body);
       const validErrors = userValidation.registerRequest(registerRequest);
       if (validErrors.length) return res.errors(validErrors[0], 400);
-      registerRequest._password = PasswordHash.generate(
+      registerRequest._password = HashFunction.generate(
         registerRequest._password
       );
       const userResponse = await authService.register(registerRequest);
@@ -44,11 +45,11 @@ const authController = {
       return res.errors("JWT hết hạn", 401);
     }
   },
-  forgotPassword: async (req, res, next) => {
+  sendMailOTP: async (req, res, next) => {
     try {
-      const forgotPasswordRequest = new ForgotPasswordRequestDTO(req.body);
-      const userResponse = await authService.forgotPassword(forgotPasswordRequest);
-      return res.success("OK", userResponse);
+      const getMailDTORequest = new GetMailOTPRequestDTO(req.body);
+      const OTPResponse = await authService.sendMailOTP(getMailDTORequest);
+      return res.success("OK", OTPResponse);
     } catch (error) {
       next(error)
     }

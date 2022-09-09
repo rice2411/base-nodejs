@@ -1,4 +1,3 @@
-import PasswordHash from "../../../helpers/PasswordHash";
 
 export default class RegisterRequestDTO {
   public _username: string;

@@ -1,10 +1,6 @@
 import nodemailer from "nodemailer";
 import { IMailService } from "./interface";
 import env from "../../../config/env";
-import otpGenerator from 'otp-generator' 
-import { Otp } from '../../models/index'
-import {SALT_ROUNDS} from '../../constants/bcrypt'
-import bcrypt from 'bcrypt'
 
 const mailService: IMailService = {
   sendMail: async (request) => {
