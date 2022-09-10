@@ -7,11 +7,11 @@ const aggregatePaginate = require("./plugins/aggregatePaginate");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  firstname: {
+  first_name: {
     type: String,
     trim: true,
   },
-  lastname: { type: String, trim: true },
+  last_name: { type: String, trim: true },
   username: {
     type: String,
     required: true,
@@ -37,21 +37,20 @@ const UserSchema = new Schema({
     type: String,
     trim: true,
   },
-  phoneNumber: String,
+  phone: String,
 });
 
 export interface IUser extends mongoose.Document {
   _id: Types.ObjectId;
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   username: string;
   role: object;
   password: string;
-  refreshToken: string;
   avatar: string;
   is_active: boolean;
   email: string;
-  phoneNumber: string;
+  phone: string;
   saveAsync(): any;
   removeAsync(): any;
 }
@@ -80,9 +79,9 @@ UserSchema.plugin(paginate);
 UserSchema.plugin(aggregatePaginate);
 
 UserSchema.index({
-  username: "text",
-  firstname: "text",
-  lastname: "text",
+  user_name: "text",
+  first_name: "text",
+  last_name: "text",
   email: "text",
 });
 

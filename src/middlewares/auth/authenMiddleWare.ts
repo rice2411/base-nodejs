@@ -1,9 +1,5 @@
 import env from "../../../config/env";
-
-import { User } from "../../models/user";
-
-import { tokenService } from "../../service/helper/token";
-import { userService } from "../../service/user";
+import tokenService from "../../service/token";
 
 const authMiddleWare = {
   requireLogin: async (req, res, next) => {
@@ -18,8 +14,6 @@ const authMiddleWare = {
       const info = tokenService.verifyToken(token, env.jwtSecret);
 
       if (!info) return res.errors("Mã token không đúng.");
-
-      const user = await userService.get(info._id);
 
       next();
     } catch (error) {

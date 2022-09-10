@@ -10,7 +10,7 @@ import { userQuery } from "../../queries";
 
 import { AuthErrorMessageService } from "../../validation/auth/error";
 import fileService from "../file/file";
-import { tokenService } from "../helper/token";
+import tokenService from "../token";
 
 import { IUserService } from "./interface";
 
@@ -43,11 +43,11 @@ const userService: IUserService = {
       });
       if (!user) return Promise.reject(new Error("Không tìm thấy người dùng."));
 
-      if (request.firstname) {
-        user.firstname = request.firstname;
+      if (request.first_name) {
+        user.first_name = request.first_name;
       }
-      if (request.lastname) {
-        user.lastname = request.lastname;
+      if (request.last_name) {
+        user.last_name = request.last_name;
       }
       if (request.avatarUpload) {
         const file = request.avatarUpload;
@@ -66,8 +66,8 @@ const userService: IUserService = {
         }
         user.email = request.email;
       }
-      if (request.phoneNumber) {
-        user.phoneNumber = request.phoneNumber;
+      if (request.phone) {
+        user.phone = request.phone;
       }
 
       const userUpdate = await user.saveAsync();

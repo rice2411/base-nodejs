@@ -3,32 +3,32 @@ import { IUser } from "../../../models/user";
 
 export interface IUserResponseDTO {
   _id?: Types.ObjectId;
-  firstname?: String;
-  lastname?: String;
+  first_name?: String;
+  last_name?: String;
   username?: String;
   password?: String;
   role?: Object;
   avatar?: String;
   is_active?: boolean;
   email: String;
-  phoneNumber: String;
+  phone: String;
 }
 export default class UserResponseDTO {
   public _id?: Types.ObjectId;
-  public _firstname?: String;
-  public _lastname?: String;
+  public _first_name?: String;
+  public _last_name?: String;
   public _username?: String;
   public _role?: Object;
   public _avatar?: String;
   public _email?: String;
-  public _phoneNumber?: String;
+  public _phone?: String;
 
-  get phoneNumber() {
-    return this._email;
+  get phone() {
+    return this.phone;
   }
 
-  setPhoneNumber(phoneNumber: string) {
-    this._phoneNumber = phoneNumber;
+  setPhone(phone: string) {
+    this._phone = phone;
     return this;
   }
   get email() {
@@ -49,25 +49,25 @@ export default class UserResponseDTO {
     return this;
   }
 
-  get firstName() {
-    return this._firstname;
+  get first_name() {
+    return this._first_name;
   }
 
-  setFirstName(firstName: String) {
-    this._firstname = firstName;
+  setFirstName(first_name: String) {
+    this._first_name = first_name;
     return this;
   }
 
-  get lastName() {
-    return this._lastname;
+  get last_name() {
+    return this._last_name;
   }
 
-  setLastName(_lastname: String) {
-    this._lastname = _lastname;
+  setLastName(last_name: String) {
+    this._last_name = last_name;
     return this;
   }
 
-  get userName() {
+  get username() {
     return this._username;
   }
 
@@ -85,7 +85,7 @@ export default class UserResponseDTO {
   }
 
   get avatar() {
-    return this._lastname;
+    return this._avatar;
   }
 
   setAvatar(_avatar: String) {
@@ -96,13 +96,13 @@ export default class UserResponseDTO {
   get(): IUserResponseDTO {
     const request: IUserResponseDTO = {
       _id: this._id,
-      firstname: this._firstname,
-      lastname: this._lastname,
+      first_name: this._first_name,
+      last_name: this._last_name,
       username: this._username,
       role: this._role,
       avatar: this._avatar,
       email: this._email,
-      phoneNumber: this._phoneNumber,
+      phone: this._phone,
     };
 
     return request;
@@ -112,12 +112,12 @@ export default class UserResponseDTO {
     if (!model) return null;
     return this.setId(model._id)
       .setUserName(model.username)
-      .setFirstName(model.firstname)
-      .setLastName(model.lastname)
+      .setFirstName(model.first_name)
+      .setLastName(model.last_name)
       .setAvatar(model.avatar)
       .setRole(model.role)
       .setEmail(model.email)
-      .setPhoneNumber(model.phoneNumber)
+      .setPhone(model.phone)
       .get();
   }
 }

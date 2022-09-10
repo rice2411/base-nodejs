@@ -2,8 +2,8 @@ import * as express from "express";
 import fileUpload from "express-fileupload";
 import { ROLE } from "../../constants/role";
 import userController from "../../controller/api/user";
-import authMiddleWare from "../../middlerwares/auth/authenMiddleWare";
-import authorMiddleWare from "../../middlerwares/auth/authorMiddleWare";
+import authMiddleWare from "../../middlewares/auth/authenMiddleWare";
+import authorMiddleWare from "../../middlewares/auth/authorMiddleWare";
 
 const router = express.Router({ mergeParams: true });
 router.route("/").get(authMiddleWare.requireLogin, userController.list);

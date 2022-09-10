@@ -1,14 +1,14 @@
 import env from "../../../config/env";
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
-import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import HashFunction from "../../helpers/HashFunction";
 import { authService } from "../../service/auth/auth";
-import { tokenService } from "../../service/helper/token";
+
 import authValidation from "../../validation/auth";
 import userValidation from "../../validation/user";
 import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import OTPRequestDTO from "../../dtos/request/auth/OTPRequestDTO";
+import tokenService from "../../service/token";
 
 const authController = {
   login: async (req, res, next) => {
@@ -17,7 +17,7 @@ const authController = {
       const validateErrors = authValidation.loginValidation(loginRequest);
       if (validateErrors.length) return res.errors(validateErrors?.[0]);
       const userResponse = await authService.login(loginRequest);
-      const tokenResult = tokenService.createToken(userResponse);
+      const tokenResult = tokenService.generateToken(userResponse);
       return res.success("OK", tokenResult);
     } catch (error) {
       next(error);

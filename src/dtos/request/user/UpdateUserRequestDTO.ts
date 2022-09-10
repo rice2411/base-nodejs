@@ -1,31 +1,29 @@
-import RegisterRequestDTO from "../auth/RegisterRequestDTO";
-
 export interface IUpdateUserRequestDTO {
-  firstname?: string;
-  lastname?: string;
+  first_name?: string;
+  last_name?: string;
   username?: string;
   password?: string;
   role?: Object;
   avatar?: string;
   is_active?: boolean;
   email?: string;
-  phoneNumber?: string;
+  phone?: string;
   avatarUpload?: Object;
 }
 export default class UpdateUserRequestDTO {
   public _id?: string;
-  public _firstname?: string;
-  public _lastname?: string;
+  public _first_name?: string;
+  public _last_name?: string;
   public _username?: string;
   public _role?: Object;
   public _avatar?: string;
   public _is_active?: boolean;
   public _email?: string;
-  public _phoneNumber?: string;
+  public _phone?: string;
   public _avatarUpload?: Object;
 
   get avatarUpload() {
-    return this._phoneNumber;
+    return this._phone;
   }
 
   setAvatarUpload(avatarUpload: Object) {
@@ -33,12 +31,12 @@ export default class UpdateUserRequestDTO {
     return this;
   }
 
-  get phoneNumber() {
-    return this._phoneNumber;
+  get phone() {
+    return this._phone;
   }
 
-  setPhoneNumber(phoneNUmber: string) {
-    this._phoneNumber = phoneNUmber;
+  setPhone(phone: string) {
+    this._phone = phone;
     return this;
   }
   get email() {
@@ -59,21 +57,21 @@ export default class UpdateUserRequestDTO {
     return this;
   }
 
-  get firstname() {
-    return this._firstname;
+  get first_name() {
+    return this._first_name;
   }
 
-  setFirstName(firstname: string) {
-    this._firstname = firstname;
+  setFirst_name(first_name: string) {
+    this._first_name = first_name;
     return this;
   }
 
-  get lastname() {
-    return this._lastname;
+  get last_name() {
+    return this._last_name;
   }
 
-  setLastName(lastname: string) {
-    this._lastname = lastname;
+  setLast_name(last_name: string) {
+    this._last_name = last_name;
     return this;
   }
 
@@ -95,7 +93,7 @@ export default class UpdateUserRequestDTO {
   }
 
   get avatar() {
-    return this._lastname;
+    return this._last_name;
   }
 
   setAvatar(avatar: string) {
@@ -114,14 +112,14 @@ export default class UpdateUserRequestDTO {
 
   public toUpdateJSON(): IUpdateUserRequestDTO {
     const request: IUpdateUserRequestDTO = {
-      firstname: this._firstname,
-      lastname: this._lastname,
+      first_name: this._first_name,
+      last_name: this._last_name,
       username: this._username,
       role: this._role,
       avatar: this._avatar,
       is_active: this.is_active,
       email: this._email,
-      phoneNumber: this._phoneNumber,
+      phone: this._phone,
       avatarUpload: this._avatarUpload,
     };
     return request;
@@ -131,14 +129,14 @@ export default class UpdateUserRequestDTO {
     if (!model) return null;
     const dto = new UpdateUserRequestDTO()
       .setUserName(model.username)
-      .setFirstName(model.firstname)
-      .setLastName(model.lastname)
+      .setFirst_name(model.first_name)
+      .setLast_name(model.last_name)
       .setAvatar(model.avatar)
       .setRole(model.role)
       .setIs_Active(model.is_active)
       .setEmail(model.email)
       .setAvatarUpload(model.avatarUpload)
-      .setPhoneNumber(model.phoneNumber);
+      .setPhone(model.phone);
     return dto.toUpdateJSON();
   }
 }
