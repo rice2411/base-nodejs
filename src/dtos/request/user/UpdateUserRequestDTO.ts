@@ -33,7 +33,7 @@ export default class UpdateUserRequestDTO {
     return this;
   }
 
-  get phoneNUmber() {
+  get phoneNumber() {
     return this._phoneNumber;
   }
 
