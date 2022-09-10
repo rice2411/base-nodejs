@@ -1,3 +1,4 @@
+import { boolean } from "joi";
 import mongoose, { Types } from "mongoose";
 import { AVATAR_DEFAULT } from "../constants/user";
 
@@ -38,6 +39,10 @@ const UserSchema = new Schema({
     trim: true,
   },
   phone: String,
+  email_verified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export interface IUser extends mongoose.Document {
@@ -50,6 +55,7 @@ export interface IUser extends mongoose.Document {
   avatar: string;
   is_active: boolean;
   email: string;
+  email_verified: boolean;
   phone: string;
   saveAsync(): any;
   removeAsync(): any;
@@ -79,7 +85,7 @@ UserSchema.plugin(paginate);
 UserSchema.plugin(aggregatePaginate);
 
 UserSchema.index({
-  user_name: "text",
+  username: "text",
   first_name: "text",
   last_name: "text",
   email: "text",

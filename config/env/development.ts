@@ -1,16 +1,6 @@
 import { config } from "dotenv";
 config();
-const {
-  DB_USER,
-  DB_PASSWORD,
-  DB_HOST,
-  DB_PORT,
-  DB_NAME_STAGING,
-  NODE_DOCKER_PORT_STAGING,
-  ROCKET_CHANNEL_HRM,
-  ROCKET_TOKEN,
-  ROCKET_DOMAIN,
-} = process.env;
+const { NODE_DOCKER_PORT_STAGING } = process.env;
 
 export default {
   env: "development",
@@ -23,5 +13,7 @@ export default {
     service: "gmail",
     root: "pentappingminh@gmail.com",
     key: "bcwx bzoi cmil mnjd",
+    secret: "8e244dcc-8b42-4ae9-8d2b-cec49aa1ec5c",
+    expiresIn: "3m",
   },
 };

@@ -44,7 +44,7 @@ const userQuery: IUserQuery = {
 
   async getById(searchParams: object) {
     const query = searchParams;
-    const user = await User.aggregate().match({...query});
+    const user = await User.aggregate().match({ ...query });
     return user.length ? user[0] : null;
   },
 };

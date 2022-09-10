@@ -1,7 +1,7 @@
 import express from "express";
 import * as bodyParser from "body-parser";
 import cors from "cors";
-import routes from "../src/routes/v1";
+import routes from "../src/routers/v1";
 import injector from "../src/helpers/injector";
 import { corsOptions } from "./cors";
 

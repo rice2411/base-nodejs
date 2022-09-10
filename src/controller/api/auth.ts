@@ -9,6 +9,7 @@ import userValidation from "../../validation/user";
 import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import OTPRequestDTO from "../../dtos/request/auth/OTPRequestDTO";
 import tokenService from "../../service/token";
+import TokenDataResponseDTO from "../../dtos/response/token/TokenDataResponseDTO";
 
 const authController = {
   login: async (req, res, next) => {
@@ -17,7 +18,13 @@ const authController = {
       const validateErrors = authValidation.loginValidation(loginRequest);
       if (validateErrors.length) return res.errors(validateErrors?.[0]);
       const userResponse = await authService.login(loginRequest);
-      const tokenResult = tokenService.generateToken(userResponse);
+      const payload = {
+        data: userResponse,
+        secret: env.jwtSecret,
+        expire_in: env.expiresIn,
+      };
+      const tokenData = new TokenDataResponseDTO(payload);
+      const tokenResult = tokenService.generateToken(tokenData);
       return res.success("OK", tokenResult);
     } catch (error) {
       next(error);

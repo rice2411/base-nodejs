@@ -7,8 +7,8 @@ const tokenService: ITokenService = {
   generateToken: (tokenData) => {
     const tokenPayload = new TokenDataResponseDTO({
       data: tokenData,
-      secret: env.jwtSecret,
-      expire_in: env.expiresIn,
+      secret: tokenData.secret,
+      expire_in: tokenData.expire_in,
     });
 
     const token = sign({ ...tokenPayload.data }, tokenPayload.secret, {
@@ -18,7 +18,8 @@ const tokenService: ITokenService = {
     return { token: token };
   },
   verifyToken: (token, secret) => {
-    return verify(token, secret);
+    const verified = verify(token, secret);
+    return verified;
   },
 };
 

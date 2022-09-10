@@ -10,8 +10,9 @@ export interface IUserResponseDTO {
   role?: Object;
   avatar?: String;
   is_active?: boolean;
-  email: String;
-  phone: String;
+  email?: String;
+  email_verified?: boolean;
+  phone?: String;
 }
 export default class UserResponseDTO {
   public _id?: Types.ObjectId;
@@ -22,7 +23,16 @@ export default class UserResponseDTO {
   public _avatar?: String;
   public _email?: String;
   public _phone?: String;
+  public _email_verified?: boolean;
 
+  get email_verified() {
+    return this._email_verified;
+  }
+
+  setEmailVerified(email_verified: boolean) {
+    this._email_verified = email_verified;
+    return this;
+  }
   get phone() {
     return this.phone;
   }
@@ -103,6 +113,7 @@ export default class UserResponseDTO {
       avatar: this._avatar,
       email: this._email,
       phone: this._phone,
+      email_verified: this._email_verified,
     };
 
     return request;
@@ -118,6 +129,7 @@ export default class UserResponseDTO {
       .setRole(model.role)
       .setEmail(model.email)
       .setPhone(model.phone)
+      .setEmailVerified(model.email_verified)
       .get();
   }
 }
