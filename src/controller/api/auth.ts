@@ -3,7 +3,6 @@ import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 import HashFunction from "../../helpers/HashFunction";
 import { authService } from "../../service/auth/auth";
-
 import authValidation from "../../validation/auth";
 import userValidation from "../../validation/user";
 import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
@@ -66,7 +65,14 @@ const authController = {
     try {
       const OTPRequest = new OTPRequestDTO(req.body);
       const OTPResponse = await authService.verifyOTP(OTPRequest);
-      return res.success("OK", OTPResponse);
+      const payload = {
+        data: OTPResponse,
+        secret: env.mail.secret,
+        expire_in: env.mail.expiresIn,
+      };
+      const tokenData = new TokenDataResponseDTO(payload);
+      const tokenResult = tokenService.generateToken(tokenData);
+      return res.success("OK", tokenResult);
     } catch (error) {
       next(error);
     }

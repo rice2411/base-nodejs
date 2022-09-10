@@ -8,5 +8,5 @@ export const OTP_CONFIG = {
     alphabets: false,
     upperCase: false,
   },
-  lifeTime: "3m",
+  lifeTime: 3,
 };

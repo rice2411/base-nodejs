@@ -3,26 +3,28 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 interface IOTP {
-    userId: string;
-    otp: string;
+  email: string;
+  otp: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const OTPSchema = new Schema(
-    {
-        userId: {
-            type: String,
-            require: true
-        },
-        otp: {
-            type: String,
-            require: true
-        },
+  {
+    email: {
+      type: String,
+      require: true,
     },
-    { 
-        timestamps: true 
-    }
+    otp: {
+      type: String,
+      require: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
-const model = mongoose.model<IOTP>('OTP', OTPSchema);
+const model = mongoose.model<IOTP>("OTP", OTPSchema);
 
 export { model as OTP };

@@ -6,4 +6,6 @@ export const AuthErrorMessageService = {
   PASSWORD_NOT_MATCH: "Mật khẩu không trùng khớp",
   USERNAME_IS_REQUIRED: "Vui lòng nhập tên đăng nhập.",
   PASSWORD_IS_REQUIRED: "Vui lòng nhập mật khẩu.",
+  EXPIRED_OTP: "OTP đã hết hạn",
+  OTP_NOT_MATCH: "OTP không trùng khớp",
 };

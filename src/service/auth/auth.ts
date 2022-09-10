@@ -9,12 +9,14 @@ import { userService } from "../user";
 import { AuthErrorMessageService } from "../../validation/auth/error";
 import { IAuthService } from "./interface";
 import { OTP } from "../../models/index";
-import bcrypt from "bcrypt";
 import { generateOtp } from "../helper/otp";
 import mailService from "../mail/index";
 import MAIL_TEMPLATE from "../../constants/mail";
 import { options } from "joi";
 import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
+import { addMinutes } from "../helper/date";
+import { OTP_CONFIG } from "../../constants/OTP";
+import VerifyTokenResponseDTO from "../../dtos/response/otp/VerifyTokenResponseDTO";
 
 const authService: IAuthService = {
   login: async (loginRequestDTO: LoginRequestDTO) => {
@@ -45,11 +47,19 @@ const authService: IAuthService = {
     const userEmail = forgotPasswordRequestDTO.email;
     const user = await User.findOne({ email: userEmail });
     if (!user) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+
+    const otp = await OTP.findOne({ email: userEmail });
     const otpGenarate = generateOtp();
-    await OTP.create({
-      userId: user._id,
-      otp: await HashFunction.generate(otpGenarate),
-    });
+
+    if (otp) {
+      otp.otp = await HashFunction.generate(otpGenarate);
+      await otp.save();
+    } else {
+      await OTP.create({
+        email: userEmail,
+        otp: await HashFunction.generate(otpGenarate),
+      });
+    }
 
     const templateMail = MAIL_TEMPLATE.OTP_TEMPLATE(otpGenarate);
 
@@ -64,10 +74,21 @@ const authService: IAuthService = {
     return response;
   },
   verifyOTP: async (OTPRequest) => {
-    // const timeSubmit = Date.now();
-    // const hash = HashFunction.generate(OTPRequest._otp);
-    // const otp = await OTP.findOne(otp: HashFunction.verify(OTPRequest._otp,otp));
-    return "OK";
+    const otp = await OTP.findOne({ email: OTPRequest.email });
+
+    if (!otp) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+
+    let lifeTimeOTP = addMinutes(
+      new Date(otp.updatedAt.toString()),
+      OTP_CONFIG.lifeTime
+    );
+    if (lifeTimeOTP.getTime() < new Date().getTime())
+      throw new Error(AuthErrorMessageService.EXPIRED_OTP);
+
+    if (!HashFunction.verify(OTPRequest.otp, otp.otp))
+      throw new Error(AuthErrorMessageService.OTP_NOT_MATCH);
+
+    return new VerifyTokenResponseDTO({ email: OTPRequest.email });
   },
 };
 

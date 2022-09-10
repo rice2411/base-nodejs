@@ -14,6 +14,6 @@ export default {
     root: "pentappingminh@gmail.com",
     key: "bcwx bzoi cmil mnjd",
     secret: "8e244dcc-8b42-4ae9-8d2b-cec49aa1ec5c",
-    expiresIn: "3m",
+    expiresIn: "10m",
   },
 };
