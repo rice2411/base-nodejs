@@ -1,10 +1,4 @@
-import env from "../../../config/env";
 import { ROLE } from "../../constants/role";
-import { ApiResponse } from "../../helpers/ApiResponse";
-import { ResponseCodes } from "../../helpers/ApiResponseCode";
-import { User } from "../../models/user";
-
-import { tokenService } from "../../service/helper/token";
 import { userService } from "../../service/user";
 
 const authorMiddleWare = {

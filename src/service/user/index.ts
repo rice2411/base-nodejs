@@ -4,11 +4,11 @@ import QueryOptions from "../../dtos/QueryOptions";
 import UpdateUserRequestDTO from "../../dtos/request/user/UpdateUserRequestDTO";
 import CreateUserResponseDTO from "../../dtos/response/user/CreateUserResponseDTO";
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
-import { ApiResponse } from "../../helpers";
+
 import { User } from "../../models";
 import { userQuery } from "../../queries";
-import userValidation from "../../validation/admin/userValidation";
-import { AuthErrorMessageService } from "../auth/errorMessage";
+
+import { AuthErrorMessageService } from "../../validation/auth/error";
 import fileService from "../file/file";
 import { tokenService } from "../helper/token";
 
@@ -21,7 +21,7 @@ const userService: IUserService = {
       const user = await userQuery.getById(query);
       if (!user) return Promise.reject(new Error("Không tìm thấy"));
       const response = new UserResponseDTO().responseDTO(user);
-      return Promise.resolve(new ApiResponse(200, "OK", response));
+      return Promise.resolve(response);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -73,7 +73,7 @@ const userService: IUserService = {
       const userUpdate = await user.saveAsync();
 
       const response = new UserResponseDTO().responseDTO(userUpdate);
-      return Promise.resolve(new ApiResponse(200, "OK", response));
+      return Promise.resolve(response);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -91,7 +91,7 @@ const userService: IUserService = {
           await user.saveAsync();
         })
       );
-      return Promise.resolve(new ApiResponse(200, "Khoá tài khoản thành công"));
+      return Promise.resolve("Khoá tài khoản thành công");
     } catch (err) {
       return Promise.reject(err);
     }
@@ -101,7 +101,7 @@ const userService: IUserService = {
       const token = req.headers.authorization.split(" ")[1].trim();
       const info = tokenService.verifyToken(token, env.jwtSecret);
       const user = await userService.get(info._id);
-      return Promise.resolve(new ApiResponse(200, "OK", user));
+      return Promise.resolve(user);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -111,7 +111,7 @@ const userService: IUserService = {
       const result = await User.remove({
         username: { $nin: ["rice", "chou"] },
       });
-      return Promise.resolve(new ApiResponse(200, "OK", result));
+      return Promise.resolve(result);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -134,7 +134,7 @@ const userService: IUserService = {
             await userService.create(user, index);
           })
         );
-        return Promise.resolve(new ApiResponse(200, "Nhập dữ liệu thành công"));
+        return Promise.resolve("Nhập dữ liệu thành công");
       }
     } catch (err) {
       return Promise.reject(err);
@@ -161,7 +161,7 @@ const userService: IUserService = {
       const user = new User(newUser);
       const userSave = await user.saveAsync();
       const response = new UserResponseDTO().responseDTO(userSave);
-      return Promise.resolve(new ApiResponse(200, "OK", response));
+      return Promise.resolve(response);
     } catch (err) {
       return Promise.reject(err);
     }

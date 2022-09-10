@@ -1,6 +1,5 @@
 import env from "../../../config/env";
-import { ApiResponse } from "../../helpers/ApiResponse";
-import { ResponseCodes } from "../../helpers/ApiResponseCode";
+
 import { User } from "../../models/user";
 
 import { tokenService } from "../../service/helper/token";
@@ -29,21 +28,6 @@ const authMiddleWare = {
       }
       next(error);
     }
-  },
-
-  checkUserBan: async (req, res, next) => {
-    try {
-      const user: any = await User.findById(req?.user._id);
-      if (!user.is_active) {
-        const apiResponse = new ApiResponse(
-          ResponseCodes.unauthorized,
-          "Unauthorized",
-          null
-        );
-        return res.status(401).json(apiResponse);
-      }
-      next();
-    } catch (error) {}
   },
 };
 

@@ -1,6 +1,6 @@
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 import { IUpdateUserRequestDTO } from "../../dtos/request/user/UpdateUserRequestDTO";
-import * as validationUtils from "../publics/utils";
+import * as validationUtils from "../../utils/utils";
 
 const ERROR = {
   USERNAME_IS_REQUIRED: "Vui lòng nhập tên đăng nhập.",

@@ -6,7 +6,7 @@ import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailOTPRequestD
 import HashFunction from "../../helpers/HashFunction";
 import { User } from "../../models/user";
 import { userService } from "../user";
-import { AuthErrorMessageService } from "./errorMessage";
+import { AuthErrorMessageService } from "../../validation/auth/error";
 import { IAuthService } from "./interface";
 import { OTP } from "../../models/index";
 import bcrypt from "bcrypt";

@@ -5,8 +5,8 @@ import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailOTPRequestD
 import HashFunction from "../../helpers/HashFunction";
 import { authService } from "../../service/auth/auth";
 import { tokenService } from "../../service/helper/token";
-import authValidation from "../../validation/admin/authValidation";
-import userValidation from "../../validation/admin/userValidation";
+import authValidation from "../../validation/auth";
+import userValidation from "../../validation/user";
 import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import OTPRequestDTO from "../../dtos/request/auth/OTPRequestDTO";
 

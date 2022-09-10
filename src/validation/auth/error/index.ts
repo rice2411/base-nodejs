@@ -4,4 +4,6 @@ export const AuthErrorMessageService = {
   EMAIL_IS_NOT_EXIST: "Email này không tồn tại",
   ACCOUNT_IS_LOCK: "Tài khoản này đã bị khoá",
   PASSWORD_NOT_MATCH: "Mật khẩu không trùng khớp",
+  USERNAME_IS_REQUIRED: "Vui lòng nhập tên đăng nhập.",
+  PASSWORD_IS_REQUIRED: "Vui lòng nhập mật khẩu.",
 };

@@ -1,18 +1,16 @@
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
-import * as validationUtils from "../publics/utils";
-
-const USERNAME_IS_REQUIRED = "Vui lòng nhập tên đăng nhập.";
-const PASSWORD_IS_REQUIRED = "Vui lòng nhập mật khẩu.";
+import * as validationUtils from "../../utils/utils";
+import { AuthErrorMessageService } from "./error";
 
 class AuthValidation {
   public loginValidation = (params: LoginRequestDTO): any[] => {
     const errors = [];
 
     if (validationUtils.isBlank(params.username)) {
-      errors.push(USERNAME_IS_REQUIRED);
+      errors.push(AuthErrorMessageService.USERNAME_IS_REQUIRED);
     }
     if (validationUtils.isBlank(params.password)) {
-      errors.push(PASSWORD_IS_REQUIRED);
+      errors.push(AuthErrorMessageService.PASSWORD_IS_REQUIRED);
     }
 
     return errors;
