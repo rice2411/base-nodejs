@@ -1,6 +1,6 @@
 import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
-import CreateUserResponseDTO from "../../dtos/response/user/CreateUserResponseDTO";
+
 import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
 import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import HashFunction from "../../helpers/HashFunction";
@@ -9,11 +9,10 @@ import { userService } from "../user";
 import { AuthErrorMessageService } from "../../validation/auth/error";
 import { IAuthService } from "./interface";
 import { OTP } from "../../models/index";
-import bcrypt from "bcrypt";
 import { generateOtp } from "../helper/otp";
 import mailService from "../mail/index";
 import MAIL_TEMPLATE from "../../constants/mail";
-import { options } from "joi";
+
 import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
 
 const authService: IAuthService = {

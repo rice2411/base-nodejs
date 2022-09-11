@@ -5,14 +5,8 @@ import TokenDataResponseDTO from "../../dtos/response/token/TokenDataResponseDTO
 
 const tokenService: ITokenService = {
   generateToken: (tokenData) => {
-    const tokenPayload = new TokenDataResponseDTO({
-      data: tokenData,
-      secret: tokenData.secret,
-      expire_in: tokenData.expire_in,
-    });
-
-    const token = sign({ ...tokenPayload.data }, tokenPayload.secret, {
-      expiresIn: tokenPayload.expire_in,
+    const token = sign({ ...tokenData.data }, tokenData.secret, {
+      expiresIn: tokenData.expire_in,
     });
 
     return { token: token };
