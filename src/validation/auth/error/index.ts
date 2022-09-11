@@ -8,4 +8,5 @@ export const AuthErrorMessageService = {
   PASSWORD_IS_REQUIRED: "Vui lòng nhập mật khẩu.",
   EXPIRED_OTP: "OTP đã hết hạn",
   OTP_NOT_MATCH: "OTP không trùng khớp",
+  EMAIL_IS_NOT_VERIFIED: "Email chưa xác thực",
 };

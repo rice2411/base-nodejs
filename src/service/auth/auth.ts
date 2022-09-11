@@ -17,6 +17,7 @@ import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
 import { addMinutes } from "../helper/date";
 import { OTP_CONFIG } from "../../constants/OTP";
 import VerifyTokenResponseDTO from "../../dtos/response/otp/VerifyTokenResponseDTO";
+import { Error } from "mongoose";
 
 const authService: IAuthService = {
   login: async (loginRequestDTO: LoginRequestDTO) => {
@@ -44,51 +45,87 @@ const authService: IAuthService = {
     return response;
   },
   sendMailOTP: async (forgotPasswordRequestDTO: ForgotPasswordRequestDTO) => {
-    const userEmail = forgotPasswordRequestDTO.email;
-    const user = await User.findOne({ email: userEmail });
-    if (!user) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+    try {
+      const userEmail = forgotPasswordRequestDTO.email;
+      const user = await User.findOne({ email: userEmail });
+      if (!user)
+        return Promise.reject(
+          new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST)
+        );
 
-    const otp = await OTP.findOne({ email: userEmail });
-    const otpGenarate = generateOtp();
+      if (!user.email_verified)
+        return Promise.reject(
+          new Error(AuthErrorMessageService.EMAIL_IS_NOT_VERIFIED)
+        );
 
-    if (otp) {
-      otp.otp = await HashFunction.generate(otpGenarate);
-      await otp.save();
-    } else {
-      await OTP.create({
+      const otp = await OTP.findOne({ email: userEmail });
+      const otpGenarate = generateOtp();
+
+      if (otp) {
+        otp.otp = await HashFunction.generate(otpGenarate);
+        await otp.save();
+      } else {
+        await OTP.create({
+          email: userEmail,
+          otp: await HashFunction.generate(otpGenarate),
+        });
+      }
+
+      const templateMail = MAIL_TEMPLATE.OTP_TEMPLATE(otpGenarate);
+
+      const options = {
         email: userEmail,
-        otp: await HashFunction.generate(otpGenarate),
-      });
+        options: templateMail,
+      };
+
+      const sendMailOTPRequestDTO = new SendMailRequestDTO(options);
+
+      const response = await mailService.sendMail(sendMailOTPRequestDTO);
+      return Promise.resolve(response);
+    } catch (error) {
+      return Promise.reject(error);
     }
-
-    const templateMail = MAIL_TEMPLATE.OTP_TEMPLATE(otpGenarate);
-
-    const options = {
-      email: userEmail,
-      options: templateMail,
-    };
-
-    const sendMailOTPRequestDTO = new SendMailRequestDTO(options);
-
-    const response = await mailService.sendMail(sendMailOTPRequestDTO);
-    return response;
   },
   verifyOTP: async (OTPRequest) => {
-    const otp = await OTP.findOne({ email: OTPRequest.email });
+    try {
+      const otp = await OTP.findOne({ email: OTPRequest.email });
 
-    if (!otp) throw new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+      if (!otp)
+        return Promise.reject(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
 
-    let lifeTimeOTP = addMinutes(
-      new Date(otp.updatedAt.toString()),
-      OTP_CONFIG.lifeTime
-    );
-    if (lifeTimeOTP.getTime() < new Date().getTime())
-      throw new Error(AuthErrorMessageService.EXPIRED_OTP);
+      let lifeTimeOTP = addMinutes(
+        new Date(otp.updatedAt.toString()),
+        OTP_CONFIG.lifeTime
+      );
+      if (lifeTimeOTP.getTime() < new Date().getTime())
+        return Promise.reject(AuthErrorMessageService.EXPIRED_OTP);
 
-    if (!HashFunction.verify(OTPRequest.otp, otp.otp))
-      throw new Error(AuthErrorMessageService.OTP_NOT_MATCH);
+      if (!HashFunction.verify(OTPRequest.otp, otp.otp))
+        return Promise.reject(AuthErrorMessageService.OTP_NOT_MATCH);
 
-    return new VerifyTokenResponseDTO({ email: OTPRequest.email });
+      return Promise.resolve(
+        new VerifyTokenResponseDTO({ email: OTPRequest.email })
+      );
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+  resetPassword: async (resetPasswordDTO) => {
+    try {
+      const user = await User.findOne({ email: resetPasswordDTO._email });
+
+      if (!user)
+        return Promise.reject(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+
+      user.password = await HashFunction.generate(resetPasswordDTO._password);
+      user.save();
+
+      await OTP.deleteOne({ email: resetPasswordDTO._email });
+
+      return Promise.resolve("Khôi phục mật khẩu thành công");
+    } catch (error) {
+      return Promise.reject(error);
+    }
   },
 };
 
