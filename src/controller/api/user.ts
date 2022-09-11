@@ -3,6 +3,7 @@ import QueryOptions from "../../dtos/QueryOptions";
 import { PAGING_DEFAULT } from "../../constants/paging";
 import UpdateUserRequestDTO from "../../dtos/request/user/UpdateUserRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
+import { BaseSuccesMessage } from "../../messages/success/base";
 
 const userController = {
   list: async (req, res, next) => {
@@ -20,7 +21,7 @@ const userController = {
             : true,
       };
       const result = await userService.list(options);
-      return res.success("OK", result);
+      return res.success(BaseSuccesMessage.SUCCESS, result);
     } catch (error) {
       next(error);
     }
@@ -29,7 +30,7 @@ const userController = {
     try {
       const { userId } = req.params;
       const user = await userService.get(userId);
-      return res.success("OK", user);
+      return res.success(BaseSuccesMessage.SUCCESS, user);
     } catch (error) {
       next(error);
     }
@@ -51,9 +52,8 @@ const userController = {
       }
       const requestUpdate = new UpdateUserRequestDTO().requestDTO(params);
       const updateUser = await userService.update(requestUpdate, userId);
-      return res.success("OK", updateUser);
+      return res.success(BaseSuccesMessage.SUCCESS, updateUser);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   },
@@ -61,16 +61,15 @@ const userController = {
     try {
       const listUserId = req.body.listUserId;
       const updateUser = await userService.deactive(listUserId);
-      return res.success("Khoá tài khoản thành công", updateUser);
+      return res.success(BaseSuccesMessage.SUCCESS, updateUser);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   },
   get_me: async (req, res, next) => {
     try {
       const user = await userService.get_me(req);
-      return res.success("OK", user);
+      return res.success(BaseSuccesMessage.SUCCESS, user);
     } catch (err) {
       console.log(err);
       next(err);
@@ -79,9 +78,8 @@ const userController = {
   removeDataTest: async (req, res, next) => {
     try {
       const result = await userService.removeDataTest();
-      return res.success("OK", null);
+      return res.success(BaseSuccesMessage.SUCCESS, null);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },
@@ -94,9 +92,8 @@ const userController = {
         request.push(newUser);
       });
       const result = await userService.importListUser(request);
-      return res.success("OK", result);
+      return res.success(BaseSuccesMessage.SUCCESS, result);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },

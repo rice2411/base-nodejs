@@ -1,6 +1,7 @@
-export const AuthErrorMessageService = {
-  USERNAME_IS_EXIST: "Tên đăng nhập đã tồn tại",
+export const AuthErrorMessage = {
+  USERNAME_IS_EXIST: "Tên đăng nhập đã có người sử dụng",
   USERNAME_IS_NOT_EXIST: "Tên đăng nhập không tồn tại",
+  EMAIL_IS_EXIST: "Email này đã có người sử dụng",
   EMAIL_IS_NOT_EXIST: "Email này không tồn tại",
   ACCOUNT_IS_LOCK: "Tài khoản này đã bị khoá",
   PASSWORD_NOT_MATCH: "Mật khẩu không trùng khớp",

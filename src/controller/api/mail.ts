@@ -1,5 +1,6 @@
 import { ca } from "date-fns/locale";
 import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
+import { BaseSuccesMessage } from "../../messages/success/base";
 import mailService from "../../service/mail";
 
 const mailController = {
@@ -7,7 +8,7 @@ const mailController = {
     try {
       const request = new SendMailRequestDTO(req.body);
       const result = await mailService.sendMail(request);
-      return res.success("OK", result);
+      return res.success(BaseSuccesMessage.SUCCESS, result);
     } catch (err) {
       next(err);
     }
@@ -16,7 +17,7 @@ const mailController = {
     try {
       const { email } = req.query;
       const response = await mailService.verifyMail(email);
-      return res.success("OK", response);
+      return res.success(BaseSuccesMessage.SUCCESS, response);
     } catch (err) {
       next(err);
     }
@@ -25,7 +26,7 @@ const mailController = {
     try {
       const { token, email } = req.body;
       const response = await mailService.confirmVerify(token, email);
-      return res.success("OK", response);
+      return res.success(BaseSuccesMessage.SUCCESS, response);
     } catch (err) {
       next(err);
     }

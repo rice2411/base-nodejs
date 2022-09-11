@@ -6,7 +6,7 @@ import ForgotPasswordRequestDTO from "../../dtos/request/auth/GetMailOTPRequestD
 import HashFunction from "../../helpers/HashFunction";
 import { User } from "../../models/user";
 import { userService } from "../user";
-import { AuthErrorMessageService } from "../../validation/auth/error";
+import { AuthErrorMessage } from "../../messages/error/auth";
 import { IAuthService } from "./interface";
 import { OTP } from "../../models/index";
 import { generateOtp } from "../helper/otp";
@@ -18,6 +18,7 @@ import { addMinutes } from "../helper/date";
 import { OTP_CONFIG } from "../../constants/OTP";
 import VerifyTokenResponseDTO from "../../dtos/response/otp/VerifyTokenResponseDTO";
 import { Error } from "mongoose";
+import { AuthSuccessMessage } from "../../messages/success/auth";
 
 const authService: IAuthService = {
   login: async (loginRequestDTO: LoginRequestDTO) => {
@@ -25,16 +26,15 @@ const authService: IAuthService = {
     const user = await User.findOne({
       username: loginRequestDTO.username,
     });
-    if (!user) throw new Error(AuthErrorMessageService.USERNAME_IS_NOT_EXIST);
+    if (!user) throw new Error(AuthErrorMessage.USERNAME_IS_NOT_EXIST);
     // Check user is active ( block or not block )
-    if (!user.is_active)
-      throw new Error(AuthErrorMessageService.ACCOUNT_IS_LOCK);
+    if (!user.is_active) throw new Error(AuthErrorMessage.ACCOUNT_IS_LOCK);
     // Check password is correct
     const isValid = HashFunction.verify(
       loginRequestDTO.password,
       user.password
     );
-    if (!isValid) throw new Error(AuthErrorMessageService.PASSWORD_NOT_MATCH);
+    if (!isValid) throw new Error(AuthErrorMessage.PASSWORD_NOT_MATCH);
     // Login success
     const response = new UserResponseDTO().responseDTO(user);
     return response;
@@ -49,13 +49,11 @@ const authService: IAuthService = {
       const userEmail = forgotPasswordRequestDTO.email;
       const user = await User.findOne({ email: userEmail });
       if (!user)
-        return Promise.reject(
-          new Error(AuthErrorMessageService.EMAIL_IS_NOT_EXIST)
-        );
+        return Promise.reject(new Error(AuthErrorMessage.EMAIL_IS_NOT_EXIST));
 
       if (!user.email_verified)
         return Promise.reject(
-          new Error(AuthErrorMessageService.EMAIL_IS_NOT_VERIFIED)
+          new Error(AuthErrorMessage.EMAIL_IS_NOT_VERIFIED)
         );
 
       const otp = await OTP.findOne({ email: userEmail });
@@ -90,18 +88,17 @@ const authService: IAuthService = {
     try {
       const otp = await OTP.findOne({ email: OTPRequest.email });
 
-      if (!otp)
-        return Promise.reject(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+      if (!otp) return Promise.reject(AuthErrorMessage.EMAIL_IS_NOT_EXIST);
 
       let lifeTimeOTP = addMinutes(
         new Date(otp.updatedAt.toString()),
         OTP_CONFIG.lifeTime
       );
       if (lifeTimeOTP.getTime() < new Date().getTime())
-        return Promise.reject(AuthErrorMessageService.EXPIRED_OTP);
+        return Promise.reject(AuthErrorMessage.EXPIRED_OTP);
 
       if (!HashFunction.verify(OTPRequest.otp, otp.otp))
-        return Promise.reject(AuthErrorMessageService.OTP_NOT_MATCH);
+        return Promise.reject(AuthErrorMessage.OTP_NOT_MATCH);
 
       return Promise.resolve(
         new VerifyTokenResponseDTO({ email: OTPRequest.email })
@@ -114,15 +111,14 @@ const authService: IAuthService = {
     try {
       const user = await User.findOne({ email: resetPasswordDTO._email });
 
-      if (!user)
-        return Promise.reject(AuthErrorMessageService.EMAIL_IS_NOT_EXIST);
+      if (!user) return Promise.reject(AuthErrorMessage.EMAIL_IS_NOT_EXIST);
 
       user.password = await HashFunction.generate(resetPasswordDTO._password);
       user.save();
 
       await OTP.deleteOne({ email: resetPasswordDTO._email });
 
-      return Promise.resolve("Khôi phục mật khẩu thành công");
+      return Promise.resolve(AuthSuccessMessage.RESET_PASSWORD_SUCCESS);
     } catch (error) {
       return Promise.reject(error);
     }

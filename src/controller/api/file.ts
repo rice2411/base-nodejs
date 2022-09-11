@@ -1,6 +1,7 @@
 import path from "path";
 
 import { FILE_PATH } from "../../constants/file";
+import { BaseSuccesMessage } from "../../messages/success/base";
 import fileService from "../../service/file/file";
 
 const fileController = {
@@ -8,7 +9,7 @@ const fileController = {
     try {
       const files = req.files;
       const result = await fileService.upload(files);
-      return res.success("OK", result);
+      return res.success(BaseSuccesMessage.SUCCESS, result);
     } catch (err) {
       next(err);
     }

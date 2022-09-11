@@ -3,6 +3,7 @@ import authRoutes from "./auth";
 import userRoutes from "./user";
 import fileRouter from "./file";
 import mailRouter from "./mail";
+import otpRouter from "./otp";
 
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.use("/auth", authRoutes);
 router.use("/user", userRoutes);
 router.use("/file", fileRouter);
 router.use("/mail", mailRouter);
+router.use("/otp", otpRouter);
 
 export default router;

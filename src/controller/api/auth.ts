@@ -10,6 +10,7 @@ import OTPRequestDTO from "../../dtos/request/auth/OTPRequestDTO";
 import tokenService from "../../service/token";
 import TokenDataResponseDTO from "../../dtos/response/token/TokenDataResponseDTO";
 import ResetPasswordDTO from "../../dtos/request/auth/ResetPasswordDTO";
+import { BaseSuccesMessage } from "../../messages/success/base";
 
 const authController = {
   login: async (req, res, next) => {
@@ -25,7 +26,7 @@ const authController = {
       };
       const tokenData = new TokenDataResponseDTO(payload);
       const tokenResult = tokenService.generateToken(tokenData);
-      return res.success("OK", tokenResult);
+      return res.success(BaseSuccesMessage.SUCCESS, tokenResult);
     } catch (error) {
       next(error);
     }
@@ -39,7 +40,7 @@ const authController = {
         registerRequest._password
       );
       const userResponse = await authService.register(registerRequest);
-      return res.success("OK", userResponse);
+      return res.success(BaseSuccesMessage.SUCCESS, userResponse);
     } catch (error) {
       next(error);
     }
@@ -48,7 +49,7 @@ const authController = {
     try {
       const token = req.headers.authorization.split(" ")[1].trim();
       tokenService.verifyToken(token, env.jwtSecret);
-      return res.success("OK");
+      return res.success(BaseSuccesMessage.SUCCESS);
     } catch (err) {
       return res.errors("JWT hết hạn", 401);
     }
@@ -57,7 +58,7 @@ const authController = {
     try {
       const getMailDTORequest = new GetMailOTPRequestDTO(req.query);
       const OTPResponse = await authService.sendMailOTP(getMailDTORequest);
-      return res.success("OK", OTPResponse);
+      return res.success(BaseSuccesMessage.SUCCESS, OTPResponse);
     } catch (error) {
       next(error);
     }
@@ -73,7 +74,7 @@ const authController = {
       };
       const tokenData = new TokenDataResponseDTO(payload);
       const tokenResult = tokenService.generateToken(tokenData);
-      return res.success("OK", tokenResult);
+      return res.success(BaseSuccesMessage.SUCCESS, tokenResult);
     } catch (error) {
       next(error);
     }
@@ -89,7 +90,7 @@ const authController = {
       const resetPasswordResult = await authService.resetPassword(
         resetPasswordDTO
       );
-      return res.success("OK", resetPasswordResult);
+      return res.success(BaseSuccesMessage.SUCCESS, resetPasswordResult);
     } catch (error) {
       next(error);
     }

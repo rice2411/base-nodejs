@@ -2,6 +2,7 @@ import path from "path";
 import { FILE_PATH } from "../../constants/file";
 import { v4 as uuidv4 } from "uuid";
 import { configFilePath } from "../helper/file";
+import { BaseErrorMessage } from "../../messages/error/base";
 
 interface IFileService {
   upload: (files: any) => Promise<any>;
@@ -17,13 +18,11 @@ const fileService: IFileService = {
       fileName = uuidv4() + extFile;
       const filepath = path.join(__dirname, "../..", savePath, fileName);
       files[key].mv(filepath, (err) => {
-        if (err) return Promise.reject({ status: "error", message: err });
+        if (err) return Promise.reject(BaseErrorMessage.SOME_THING_WENT_WRONG);
       });
     });
 
     return Promise.resolve({
-      status: "success",
-      message: "Tải lên thành công",
       name: fileName,
     });
   },

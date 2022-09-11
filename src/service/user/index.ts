@@ -8,18 +8,20 @@ import UserResponseDTO from "../../dtos/response/user/UserResponseDTO";
 import { User } from "../../models";
 import { userQuery } from "../../queries";
 
-import { AuthErrorMessageService } from "../../validation/auth/error";
+import { AuthErrorMessage } from "../../messages/error/auth";
 import fileService from "../file/file";
 import tokenService from "../token";
 
 import { IUserService } from "./interface";
+import { UserErrorMessage } from "../../messages/error/user";
+import { UserSuccessMessage } from "../../messages/success/user";
 
 const userService: IUserService = {
   get: async (id) => {
     try {
       const query = { _id: new mongoose.Types.ObjectId(id), is_active: true };
       const user = await userQuery.getById(query);
-      if (!user) return Promise.reject(new Error("Không tìm thấy"));
+      if (!user) return Promise.reject(UserErrorMessage.USER_NOT_FOUND);
       const response = new UserResponseDTO().responseDTO(user);
       return Promise.resolve(response);
     } catch (err) {
@@ -41,7 +43,7 @@ const userService: IUserService = {
       const user = await User.findOne({
         _id: new mongoose.Types.ObjectId(userId),
       });
-      if (!user) return Promise.reject(new Error("Không tìm thấy người dùng."));
+      if (!user) return Promise.reject(UserErrorMessage.USER_NOT_FOUND);
 
       if (request.first_name) {
         user.first_name = request.first_name;
@@ -62,7 +64,7 @@ const userService: IUserService = {
         });
 
         if (emailFound && user.email != request.email) {
-          return Promise.reject(Error("Email này đã có người sử dụng!"));
+          return Promise.reject(AuthErrorMessage.EMAIL_IS_EXIST);
         }
         user.email = request.email;
       }
@@ -85,13 +87,12 @@ const userService: IUserService = {
           const user = await User.findOne({
             _id: new mongoose.Types.ObjectId(userId),
           });
-          if (!user)
-            return Promise.reject(new Error("Không tìm thấy người dùng."));
+          if (!user) return Promise.reject(UserErrorMessage.USER_NOT_FOUND);
           user.is_active = false;
           await user.saveAsync();
         })
       );
-      return Promise.resolve("Khoá tài khoản thành công");
+      return Promise.resolve(UserSuccessMessage.BLOCK_USER_SUCCESS);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -124,7 +125,7 @@ const userService: IUserService = {
           const userFound = await User.findOne({ username: user.username });
           if (userFound) {
             canImport = false;
-            return Promise.reject(new Error("Tên đăng nhập đã tồn tại"));
+            return Promise.reject(AuthErrorMessage.USERNAME_IS_EXIST);
           }
         })
       );
@@ -134,7 +135,7 @@ const userService: IUserService = {
             await userService.create(user, index);
           })
         );
-        return Promise.resolve("Nhập dữ liệu thành công");
+        return Promise.resolve(UserSuccessMessage.IMPORT_LIST_USER_SUCCESS);
       }
     } catch (err) {
       return Promise.reject(err);
@@ -146,7 +147,7 @@ const userService: IUserService = {
         username: request._username,
       });
       if (userFound) {
-        throw new Error(AuthErrorMessageService.USERNAME_IS_EXIST);
+        throw new Error(AuthErrorMessage.USERNAME_IS_EXIST);
       }
       const userCountCurrent = userCount
         ? (await User.countDocuments()) + 1 + userCount

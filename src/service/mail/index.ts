@@ -7,10 +7,11 @@ import MAIL_TEMPLATE from "../../constants/mail";
 import SendMailRequestDTO from "../../dtos/request/mail/SendMailRequestDTO";
 
 import { User } from "../../models";
+import { MailSuccessMessage } from "../../messages/success/mail";
 
 const mailService: IMailService = {
   sendMail: async (request) => {
-    const test = {
+    const mailOption = {
       from: env.mail.root,
       to: request.email,
       ...request.options,
@@ -23,10 +24,8 @@ const mailService: IMailService = {
           pass: env.mail.key,
         },
       });
-      await transporter.sendMail(test);
-      return Promise.resolve({
-        message: "Yêu cầu thành công! Vui lòng kiểm tra hộp thư của bạn",
-      });
+      await transporter.sendMail(mailOption);
+      return Promise.resolve(MailSuccessMessage.SEND_MAIL_SUCCESS);
     } catch (err) {
       return Promise.reject({
         message: err.message,
@@ -66,7 +65,7 @@ const mailService: IMailService = {
         const user = await User.findOne({ email: email });
         user.email_verified = true;
         await user.save();
-        return Promise.resolve("Xác thực email thành công");
+        return Promise.resolve(MailSuccessMessage.VERIFY_EMAIL_SUCCESS);
       }
     } catch (err) {
       return Promise.reject(err);
