@@ -16,4 +16,8 @@ export default {
     secret: "8e244dcc-8b42-4ae9-8d2b-cec49aa1ec5c",
     expiresIn: "3m",
   },
+  otp: {
+    secret: "16c2ae54-4f41-4641-b922-bdf979fe063c",
+    expiresIn: "3m",
+  },
 };

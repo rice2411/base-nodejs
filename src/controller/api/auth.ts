@@ -3,13 +3,13 @@ import LoginRequestDTO from "../../dtos/request/auth/LoginRequestDTO";
 import RegisterRequestDTO from "../../dtos/request/auth/RegisterRequestDTO";
 import HashFunction from "../../helpers/HashFunction";
 import { authService } from "../../service/auth/auth";
-
 import authValidation from "../../validation/auth";
 import userValidation from "../../validation/user";
 import GetMailOTPRequestDTO from "../../dtos/request/auth/GetMailOTPRequestDTO";
 import OTPRequestDTO from "../../dtos/request/auth/OTPRequestDTO";
 import tokenService from "../../service/token";
 import TokenDataResponseDTO from "../../dtos/response/token/TokenDataResponseDTO";
+import ResetPasswordDTO from "../../dtos/request/auth/ResetPasswordDTO";
 
 const authController = {
   login: async (req, res, next) => {
@@ -55,7 +55,7 @@ const authController = {
   },
   sendMailOTP: async (req, res, next) => {
     try {
-      const getMailDTORequest = new GetMailOTPRequestDTO(req.body);
+      const getMailDTORequest = new GetMailOTPRequestDTO(req.query);
       const OTPResponse = await authService.sendMailOTP(getMailDTORequest);
       return res.success("OK", OTPResponse);
     } catch (error) {
@@ -66,7 +66,30 @@ const authController = {
     try {
       const OTPRequest = new OTPRequestDTO(req.body);
       const OTPResponse = await authService.verifyOTP(OTPRequest);
-      return res.success("OK", OTPResponse);
+      const payload = {
+        data: OTPResponse,
+        secret: env.otp.secret,
+        expire_in: env.otp.expiresIn,
+      };
+      const tokenData = new TokenDataResponseDTO(payload);
+      const tokenResult = tokenService.generateToken(tokenData);
+      return res.success("OK", tokenResult);
+    } catch (error) {
+      next(error);
+    }
+  },
+  resetPassword: async (req, res, next) => {
+    try {
+      const token = req.headers.authorization.split(" ")[1].trim();
+      const info = tokenService.verifyToken(token, env.otp.secret);
+      const resetPasswordDTO = new ResetPasswordDTO({
+        email: info._data._email,
+        password: req.body.password,
+      });
+      const resetPasswordResult = await authService.resetPassword(
+        resetPasswordDTO
+      );
+      return res.success("OK", resetPasswordResult);
     } catch (error) {
       next(error);
     }
