@@ -4,10 +4,17 @@ import cors from "cors";
 import routes from "../src/routers/v1";
 import injector from "../src/helpers/injector";
 import { corsOptions } from "./cors";
+const session = require("express-session");
+const passport = require("passport");
+require("../config/passport");
 
 const SUCCESS_CODE = 200;
 const app = express();
 
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+app.use(session({ secret: "rice", resave: false, saveUninitialized: true }));
 app.use(
   bodyParser.urlencoded({
     limit: "5mb",
@@ -32,7 +39,17 @@ app.use(function (req, res, next) {
 
 app.use(injector);
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/api/v1", routes);
+
+app.get("/test", isLoggedIn, (req: any, res) => {
+  res.send(req?.user);
+});
+app.get("/fail", isLoggedIn, (req: any, res) => {
+  res.send("Login ngu");
+});
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
