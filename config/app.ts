@@ -4,6 +4,7 @@ import cors from "cors";
 import routes from "../src/routers/v1";
 import injector from "../src/helpers/injector";
 import { corsOptions } from "./cors";
+import path from "path";
 const session = require("express-session");
 const passport = require("passport");
 require("../config/passport");
@@ -41,6 +42,18 @@ app.use(injector);
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.get(
+  "/zalo_verifierV_cK6vxCC1bxvgT2_fWJGmUjesBhtNWyEJK.html",
+  (req, res) => {
+    res.sendFile(
+      path.join(
+        __dirname,
+        "..",
+        "/zalo_verifierV_cK6vxCC1bxvgT2_fWJGmUjesBhtNWyEJK.html"
+      )
+    );
+  }
+);
 
 app.use("/api/v1", routes);
 
