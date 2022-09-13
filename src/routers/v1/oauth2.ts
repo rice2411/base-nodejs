@@ -11,7 +11,9 @@ router
   .route("/google/callback")
   .get(passport.authenticate("google", CALLBACK_URIS));
 
-router.route("/facebook").get(passport.authenticate("facebook"));
+router
+  .route("/facebook")
+  .get(passport.authenticate("facebook", { scope: ["email"] }));
 router
   .route("/facebook/callback")
   .get(passport.authenticate("facebook", CALLBACK_URIS));

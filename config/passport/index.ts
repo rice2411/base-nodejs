@@ -55,7 +55,7 @@ passport.use(
       callbackURL: CLIENT_URL + FACEBOOK_CALLBACK_URI,
       profileFields: [
         "id",
-        "email",
+        "emails",
         "gender",
         "link",
         "locale",

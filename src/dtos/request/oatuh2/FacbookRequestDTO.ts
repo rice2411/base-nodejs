@@ -12,11 +12,10 @@ export default class FacebookRequestDTO {
   public type_account?: string;
 
   constructor(data) {
-    const email = data.photos[0].value;
     this.facebook_id = data?.id;
     this.first_name = data?.name.familyName;
     this.last_name = data?.name.givenName;
-    this.email = email ? email : "";
+    this.email = data.emails[0].value;
     this.avatar = data?.photos[0]?.value;
     this.password = uuidv4();
     this.username = NAME_DEFAULT + this.facebook_id;
