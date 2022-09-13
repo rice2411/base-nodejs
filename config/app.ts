@@ -12,9 +12,6 @@ require("../config/passport");
 const SUCCESS_CODE = 200;
 const app = express();
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
 app.use(session({ secret: "rice", resave: false, saveUninitialized: true }));
 app.use(
   bodyParser.urlencoded({
@@ -56,13 +53,6 @@ app.get(
 );
 
 app.use("/api/v1", routes);
-
-app.get("/test", isLoggedIn, (req: any, res) => {
-  res.send(req?.user);
-});
-app.get("/fail", isLoggedIn, (req: any, res) => {
-  res.send("Login ngu");
-});
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
