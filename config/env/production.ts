@@ -40,8 +40,8 @@ export default {
     callback_uri: "/api/v1/oauth2/google/callback",
   },
   facebook: {
-    app_id: "411466537792783",
-    app_secret: "d26c2283d1cbd6b78dbd26cbb03437aa",
+      app_id: "492541272684231",
+    app_secret: "4961e2b29f1ff8f8a99e4545b347b0f3",
     callback_uri: "/api/v1/oauth2/facebook/callback",
   },
   github: {
