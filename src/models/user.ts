@@ -43,6 +43,22 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  type_account: {
+    type: String,
+    default: "default",
+  },
+  google_id: {
+    type: String,
+    default: null,
+  },
+  facebook_id: {
+    type: String,
+    default: null,
+  },
+  github_id: {
+    type: String,
+    default: null,
+  },
 });
 
 export interface IUser extends mongoose.Document {
@@ -57,6 +73,10 @@ export interface IUser extends mongoose.Document {
   email: string;
   email_verified: boolean;
   phone: string;
+  type_account: string;
+  facebook_id: string;
+  google_id: string;
+  github_id: string;
   saveAsync(): any;
   removeAsync(): any;
 }

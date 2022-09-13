@@ -25,6 +25,7 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: CLIENT_URL + GOOGLE_CALLBACK_URI,
+      scope: ["profile", "email"],
     },
     function (request, accessToken, refreshToken, profile, done) {
       return done(null, profile);
@@ -37,6 +38,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
+      scope: ["user:email"],
       callbackURL: CLIENT_URL + GITHUB_CALLBACK_URI,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -61,6 +63,7 @@ passport.use(
         "timezone",
         "updated_time",
         "verified",
+        "photos",
       ],
     },
     function (request, accessToken, refreshToken, profile, done) {

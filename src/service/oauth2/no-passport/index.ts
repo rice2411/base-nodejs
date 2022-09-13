@@ -1,7 +1,7 @@
 import env from "../../../../config/env";
 import querystring from "querystring";
 import { IOAuth2ServiceDemo } from "./interface";
-import { getTokens } from "../helper";
+import { getTokens } from "../../helper/oauth2/token";
 import axios from "axios";
 
 const oauth2ServiceTest: IOAuth2ServiceDemo = {

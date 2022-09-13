@@ -15,6 +15,11 @@ import tokenService from "../token";
 import { IUserService } from "./interface";
 import { UserErrorMessage } from "../../messages/error/user";
 import { UserSuccessMessage } from "../../messages/success/user";
+import { PROVIDER } from "../../constants/provider";
+import GoogleRequestDTO from "../../dtos/request/oatuh2/GoogleRequestDTO";
+import { NAME_DEFAULT } from "../../constants/user";
+import FacebookRequestDTO from "../../dtos/request/oatuh2/FacbookRequestDTO";
+import GitHubRequestDTO from "../../dtos/request/oatuh2/GitHubRequestDTO";
 
 const userService: IUserService = {
   get: async (id) => {
@@ -156,13 +161,41 @@ const userService: IUserService = {
       const newUserDTO = new CreateUserResponseDTO().toJSON(request);
       const newUser = {
         ...newUserDTO,
-        firstname: "user" + userCountCurrent,
-        lastname: "",
+        first_name: NAME_DEFAULT + userCountCurrent,
+        last_name: "",
       };
       const user = new User(newUser);
       const userSave = await user.saveAsync();
       const response = new UserResponseDTO().responseDTO(userSave);
       return Promise.resolve(response);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
+  createOauth2: async (data) => {
+    try {
+      const provider = data.provider;
+      if (provider == PROVIDER.GOOGLE) {
+        const newUser = new GoogleRequestDTO(data);
+        const user = new User(newUser);
+        const userSave = await user.saveAsync();
+        const response = new UserResponseDTO().responseDTO(userSave);
+        return Promise.resolve(response);
+      }
+      if (provider == PROVIDER.FACEBOOK) {
+        const newUser = new FacebookRequestDTO(data);
+        const user = new User(newUser);
+        const userSave = await user.saveAsync();
+        const response = new UserResponseDTO().responseDTO(userSave);
+        return Promise.resolve(response);
+      }
+      if (provider == PROVIDER.GITHUB) {
+        const newUser = new GitHubRequestDTO(data);
+        const user = new User(newUser);
+        const userSave = await user.saveAsync();
+        const response = new UserResponseDTO().responseDTO(userSave);
+        return Promise.resolve(response);
+      }
     } catch (err) {
       return Promise.reject(err);
     }

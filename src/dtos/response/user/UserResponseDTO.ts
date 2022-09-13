@@ -13,6 +13,10 @@ export interface IUserResponseDTO {
   email?: String;
   email_verified?: boolean;
   phone?: String;
+  type_account?: String;
+  facebook_id?: String;
+  google_id?: String;
+  github_id?: String;
 }
 export default class UserResponseDTO {
   public _id?: Types.ObjectId;
@@ -24,6 +28,41 @@ export default class UserResponseDTO {
   public _email?: String;
   public _phone?: String;
   public _email_verified?: boolean;
+  public _type_account?: String;
+  public _google_id?: String;
+  public _facebook_id?: String;
+  public _github_id?: String;
+
+  get google_id() {
+    return this._google_id;
+  }
+  setGoogleId(google_id: String) {
+    this._google_id = google_id;
+    return this;
+  }
+
+  get github_id() {
+    return this._github_id;
+  }
+  setGitHubId(github_id: String) {
+    this._github_id = github_id;
+    return this;
+  }
+
+  get facebook_id() {
+    return this._facebook_id;
+  }
+  setFacebookId(facebook_id: String) {
+    this._facebook_id = facebook_id;
+    return this;
+  }
+  get type_account() {
+    return this._type_account;
+  }
+  setTypeAccount(type_account: String) {
+    this._type_account = type_account;
+    return this;
+  }
 
   get email_verified() {
     return this._email_verified;
@@ -114,6 +153,10 @@ export default class UserResponseDTO {
       email: this._email,
       phone: this._phone,
       email_verified: this._email_verified,
+      google_id: this._google_id,
+      facebook_id: this._facebook_id,
+      github_id: this._github_id,
+      type_account: this._type_account,
     };
 
     return request;
@@ -130,6 +173,10 @@ export default class UserResponseDTO {
       .setEmail(model.email)
       .setPhone(model.phone)
       .setEmailVerified(model.email_verified)
+      .setGoogleId(model.google_id)
+      .setGitHubId(model.github_id)
+      .setTypeAccount(model.type_account)
+      .setFacebookId(model.facebook_id)
       .get();
   }
 }
