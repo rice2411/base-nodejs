@@ -8,7 +8,7 @@ const oauth2Controller = {
     try {
       const data = req.user;
       const response = await oauth2Service.success(data);
-      return res.success(BaseSuccesMessage.SUCCESS, response);
+      return res.redirect("https://rice-app.vercel.app/login?oauth2=true");
     } catch (err) {
       next(err);
     }
