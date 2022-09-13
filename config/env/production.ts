@@ -37,16 +37,16 @@ export default {
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email",
     ],
-    callback_uri: "api/v1/oauth2/google/callback",
+    callback_uri: "/api/v1/oauth2/google/callback",
   },
   facebook: {
     app_id: "2501965933288142",
     app_secret: "c3588b2f23f7bd3ed868a55b3b3a50ea",
-    callback_uri: "api/v1/oauth2/facebook/callback",
+    callback_uri: "/api/v1/oauth2/facebook/callback",
   },
   github: {
     client_id: "716df12f71fc67a458e8",
     client_secret: "378a7919af48f982fad7a57630fbd34e1a91ea55",
-    callback_uri: "api/v1/oauth2/github/callback",
+    callback_uri: "/api/v1/oauth2/github/callback",
   },
 };
