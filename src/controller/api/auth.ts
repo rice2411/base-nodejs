@@ -60,7 +60,7 @@ const authController = {
       const { token } = req.body;
       const info = tokenService.verifyToken(token, env.otp.secret);
       const resetPasswordDTO = new ResetPasswordDTO({
-        email: info._data._email,
+        email: info._email,
         password: req.body.password,
       });
       const resetPasswordResult = await authService.resetPassword(
