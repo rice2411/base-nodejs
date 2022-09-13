@@ -51,6 +51,17 @@ passport.use(
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
       callbackURL: CLIENT_URL + FACEBOOK_CALLBACK_URI,
+      profileFields: [
+        "id",
+        "email",
+        "gender",
+        "link",
+        "locale",
+        "name",
+        "timezone",
+        "updated_time",
+        "verified",
+      ],
     },
     function (request, accessToken, refreshToken, profile, done) {
       return done(null, profile);
