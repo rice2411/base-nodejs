@@ -51,6 +51,9 @@ app.get(
     );
   }
 );
+app.get("/policy", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "/policy.html"));
+});
 
 app.use("/api/v1", routes);
 
