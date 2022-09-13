@@ -1,14 +1,18 @@
 import { config } from "dotenv";
 config();
-const { NODE_RICE_APP_PORT } = process.env;
+const { NODE_RICE_APP_PORT, NODE_RICE_APP_HOST, NODE_RICE_APP_URI } =
+  process.env;
 
 export default {
   env: "development",
-  envName: "dev",
-  jwtSecret: "2b06c243-4e10-427a-ba57-7de64e11deee",
-  expiresIn: "1y",
   db: `mongodb+srv://unclerice:023657@cluster0.q7mqbnf.mongodb.net/CompanyDB?retryWrites=true&w=majority`,
   port: NODE_RICE_APP_PORT,
+  app_host: NODE_RICE_APP_HOST,
+  app_uri: NODE_RICE_APP_URI,
+  jwt: {
+    secret: "2b06c243-4e10-427a-ba57-7de64e11deee",
+    expiresIn: "1y",
+  },
   mail: {
     service: "gmail",
     root: "minhrice.dev@gmail.com",
@@ -33,16 +37,16 @@ export default {
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email",
     ],
-    callback_uri: "api/v1/oauth2/google/callback",
+    callback_uri: "/api/v1/oauth2/google/callback",
   },
   facebook: {
-    app_id: "2501965933288142",
-    app_secret: "c3588b2f23f7bd3ed868a55b3b3a50ea",
-    callback_uri: "api/v1/oauth2/facebook/callback",
+    app_id: "492541272684231",
+    app_secret: "4961e2b29f1ff8f8a99e4545b347b0f3",
+    callback_uri: "/api/v1/oauth2/facebook/callback",
   },
   github: {
     client_id: "716df12f71fc67a458e8",
     client_secret: "378a7919af48f982fad7a57630fbd34e1a91ea55",
-    callback_uri: "api/v1/oauth2/github/callback",
+    callback_uri: "/api/v1/oauth2/github/callback",
   },
 };

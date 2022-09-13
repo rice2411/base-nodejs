@@ -1,14 +1,18 @@
 import { config } from "dotenv";
 config();
-const { NODE_RICE_APP_PORT } = process.env;
+const { NODE_RICE_APP_PORT, NODE_RICE_APP_HOST, NODE_RICE_APP_URI } =
+  process.env;
 
 export default {
   env: "production",
-  envName: "prod",
-  jwtSecret: "2b06c243-4e10-427a-ba57-7de64e11deee",
-  expiresIn: "1y",
   db: `mongodb+srv://unclerice:023657@cluster0.q7mqbnf.mongodb.net/CompanyDB?retryWrites=true&w=majority`,
   port: NODE_RICE_APP_PORT,
+  app_host: NODE_RICE_APP_HOST,
+  app_uri: NODE_RICE_APP_URI,
+  jwt: {
+    secret: "2b06c243-4e10-427a-ba57-7de64e11deee",
+    expiresIn: "1y",
+  },
   mail: {
     service: "gmail",
     root: "minhrice.dev@gmail.com",

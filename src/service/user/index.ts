@@ -100,7 +100,7 @@ const userService: IUserService = {
   get_me: async (req) => {
     try {
       const token = req.headers.authorization.split(" ")[1].trim();
-      const info = tokenService.verifyToken(token, env.jwtSecret);
+      const info = tokenService.verifyToken(token, env.jwt.secret);
       const user = await userService.get(info._id);
       return Promise.resolve(user);
     } catch (err) {

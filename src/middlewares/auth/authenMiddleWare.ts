@@ -11,7 +11,7 @@ const authMiddleWare = {
       if (header !== "Bearer") return res.errors("Mã token không đúng.");
 
       const token = req.headers.authorization.split(" ")[1].trim();
-      const info = tokenService.verifyToken(token, env.jwtSecret);
+      const info = tokenService.verifyToken(token, env.jwt.secret);
 
       if (!info) return res.errors("Mã token không đúng.");
 

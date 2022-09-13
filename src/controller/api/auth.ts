@@ -18,10 +18,12 @@ const authController = {
       const validateErrors = authValidation.loginValidation(loginRequest);
       if (validateErrors.length) return res.errors(validateErrors?.[0]);
       const userResponse = await authService.login(loginRequest);
+      const secret = env.jwt.secret;
+      const expire_in = env.jwt.expiresIn;
       const payload = {
         data: userResponse,
-        secret: env.jwtSecret,
-        expire_in: env.expiresIn,
+        secret: secret,
+        expire_in: expire_in,
       };
       const tokenData = new TokenDataResponseDTO(payload);
       const tokenResult = tokenService.generateToken(tokenData);
@@ -47,7 +49,7 @@ const authController = {
   verifyToken: async (req, res, next) => {
     try {
       const token = req.headers.authorization.split(" ")[1].trim();
-      tokenService.verifyToken(token, env.jwtSecret);
+      tokenService.verifyToken(token, env.jwt.secret);
       return res.success(BaseSuccesMessage.SUCCESS);
     } catch (err) {
       return res.errors("JWT hết hạn", 401);

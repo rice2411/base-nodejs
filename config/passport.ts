@@ -17,7 +17,7 @@ const FACEBOOK_APP_ID = env.facebook.app_id;
 const FACEBOOK_APP_SECRET = env.facebook.app_secret;
 const FACEBOOK_CALLBACK_URI = env.facebook.callback_uri;
 
-const CLIENT_URL = "http://localhost:3002/";
+const CLIENT_URL = env.app_uri;
 
 passport.use(
   new GoogleStrategy(

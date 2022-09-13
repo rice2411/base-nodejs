@@ -3,7 +3,6 @@ const passport = require("passport");
 import oauth2Controller from "../../controller/api/oatuh2";
 
 const router = express.Router();
-const CLIENT_URL = "http://localhost:3002";
 const scope = {
   scope: ["email", "profile"],
 };
