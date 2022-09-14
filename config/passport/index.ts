@@ -1,3 +1,8 @@
+import {
+  FACEBOOK_SCOPE,
+  GITHUB_SCOPE,
+  GOOGLE_SCOPE,
+} from "../../src/constants/scope";
 import env from "../env";
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -25,7 +30,7 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: CLIENT_URL + GOOGLE_CALLBACK_URI,
-      scope: ["profile", "email"],
+      scope: GOOGLE_SCOPE.scope,
     },
     function (request, accessToken, refreshToken, profile, done) {
       return done(null, profile);
@@ -38,7 +43,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      scope: ["user:email"],
+      scope: GITHUB_SCOPE.scope,
       callbackURL: CLIENT_URL + GITHUB_CALLBACK_URI,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -53,18 +58,7 @@ passport.use(
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
       callbackURL: CLIENT_URL + FACEBOOK_CALLBACK_URI,
-      profileFields: [
-        "id",
-        "emails",
-        "gender",
-        "link",
-        "locale",
-        "name",
-        "timezone",
-        "updated_time",
-        "verified",
-        "photos",
-      ],
+      profileFields: FACEBOOK_SCOPE.profileFields,
     },
     function (request, accessToken, refreshToken, profile, done) {
       return done(null, profile);
