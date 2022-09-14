@@ -1,5 +1,6 @@
 import * as express from "express";
 import { CALLBACK_URIS } from "../../../config/passport/callback";
+import { FACEBOOK_SCOPE } from "../../constants/scope";
 
 const passport = require("passport");
 import oauth2Controller from "../../controller/api/oatuh2";
@@ -11,11 +12,9 @@ router
   .route("/google/callback")
   .get(passport.authenticate("google", CALLBACK_URIS));
 
-router.route("/facebook").get(
-  passport.authenticate("facebook", {
-    scope: ["email", "user_hometown", ""],
-  })
-);
+router
+  .route("/facebook")
+  .get(passport.authenticate("facebook", FACEBOOK_SCOPE.scope));
 router
   .route("/facebook/callback")
   .get(passport.authenticate("facebook", CALLBACK_URIS));
