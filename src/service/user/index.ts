@@ -26,7 +26,8 @@ const userService: IUserService = {
     try {
       const query = { _id: new mongoose.Types.ObjectId(id), is_active: true };
       const user = await userQuery.getById(query);
-      if (!user) return Promise.reject(UserErrorMessage.USER_NOT_FOUND);
+      if (!user)
+        return Promise.reject(new Error(UserErrorMessage.USER_NOT_FOUND));
       const response = new UserResponseDTO().responseDTO(user);
       return Promise.resolve(response);
     } catch (err) {
@@ -48,7 +49,8 @@ const userService: IUserService = {
       const user = await User.findOne({
         _id: new mongoose.Types.ObjectId(userId),
       });
-      if (!user) return Promise.reject(UserErrorMessage.USER_NOT_FOUND);
+      if (!user)
+        return Promise.reject(new Error(UserErrorMessage.USER_NOT_FOUND));
 
       if (request.first_name) {
         user.first_name = request.first_name;
@@ -69,7 +71,7 @@ const userService: IUserService = {
         });
 
         if (emailFound && user.email != request.email) {
-          return Promise.reject(AuthErrorMessage.EMAIL_IS_EXIST);
+          return Promise.reject(new Error(AuthErrorMessage.EMAIL_IS_EXIST));
         }
         user.email = request.email;
       }
@@ -92,7 +94,8 @@ const userService: IUserService = {
           const user = await User.findOne({
             _id: new mongoose.Types.ObjectId(userId),
           });
-          if (!user) return Promise.reject(UserErrorMessage.USER_NOT_FOUND);
+          if (!user)
+            return Promise.reject(new Error(UserErrorMessage.USER_NOT_FOUND));
           user.is_active = false;
           await user.saveAsync();
         })
@@ -130,7 +133,9 @@ const userService: IUserService = {
           const userFound = await User.findOne({ username: user.username });
           if (userFound) {
             canImport = false;
-            return Promise.reject(AuthErrorMessage.USERNAME_IS_EXIST);
+            return Promise.reject(
+              new Error(AuthErrorMessage.USERNAME_IS_EXIST)
+            );
           }
         })
       );

@@ -5,7 +5,7 @@ const { NODE_RICE_APP_PORT, NODE_RICE_APP_HOST, NODE_RICE_APP_URI } =
 
 export default {
   env: "development",
-  db: `mongodb+srv://unclerice:023657@cluster0.q7mqbnf.mongodb.net/CompanyDB?retryWrites=true&w=majority`,
+  db: `mongodb://localhost:27017/CompanyDB`,
   port: NODE_RICE_APP_PORT,
   app_host: NODE_RICE_APP_HOST,
   app_uri: NODE_RICE_APP_URI,
@@ -18,11 +18,11 @@ export default {
     root: "minhrice.dev@gmail.com",
     key: "ausl qjfp zukd wqkj",
     secret: "8e244dcc-8b42-4ae9-8d2b-cec49aa1ec5c",
-    expiresIn: "3m",
+    expiresIn: "30m",
   },
   otp: {
     secret: "16c2ae54-4f41-4641-b922-bdf979fe063c",
-    expiresIn: "3m",
+    expiresIn: "30m",
   },
   sms: {
     sid: "AC01078c94d9b3781bdf184750450fcbd6",
