@@ -42,7 +42,8 @@ const authService: IAuthService = {
     try {
       const user = await User.findOne({ email: resetPasswordDTO._email });
 
-      if (!user) return Promise.reject(AuthErrorMessage.EMAIL_IS_NOT_EXIST);
+      if (!user)
+        return Promise.reject(new Error(AuthErrorMessage.EMAIL_IS_NOT_EXIST));
 
       user.password = await HashFunction.generate(resetPasswordDTO._password);
       user.save();

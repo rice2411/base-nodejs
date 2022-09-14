@@ -76,17 +76,20 @@ const otpService: IOTPSerivce = {
     try {
       const otp = await OTP.findOne({ email: OTPRequest.email });
 
-      if (!otp) return Promise.reject(AuthErrorMessage.EMAIL_IS_NOT_EXIST);
+      if (!otp)
+        return Promise.reject(new Error(AuthErrorMessage.EMAIL_IS_NOT_EXIST));
 
       let lifeTimeOTP = addMinutes(
         new Date(otp.updatedAt.toString()),
         OTP_CONFIG.lifeTime
       );
       if (lifeTimeOTP.getTime() < new Date().getTime())
-        return Promise.reject(AuthErrorMessage.EXPIRED_OTP);
+        return Promise.reject(new Error(AuthErrorMessage.EXPIRED_OTP));
 
-      if (!HashFunction.verify(OTPRequest.otp, otp.otp))
-        return Promise.reject(AuthErrorMessage.OTP_NOT_MATCH);
+      if (!HashFunction.verify(OTPRequest.otp, otp.otp)) {
+        console.log(HashFunction.verify(OTPRequest.otp, otp.otp));
+        return Promise.reject(new Error(AuthErrorMessage.OTP_NOT_MATCH));
+      }
 
       return Promise.resolve(
         new VerifyTokenResponseDTO({ email: OTPRequest.email })

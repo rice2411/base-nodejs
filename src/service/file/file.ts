@@ -18,7 +18,10 @@ const fileService: IFileService = {
       fileName = uuidv4() + extFile;
       const filepath = path.join(__dirname, "../..", savePath, fileName);
       files[key].mv(filepath, (err) => {
-        if (err) return Promise.reject(BaseErrorMessage.SOME_THING_WENT_WRONG);
+        if (err)
+          return Promise.reject(
+            new Error(BaseErrorMessage.SOME_THING_WENT_WRONG)
+          );
       });
     });
 
