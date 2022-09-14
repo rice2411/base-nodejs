@@ -12,6 +12,7 @@ export default class FacebookRequestDTO {
   public type_account?: string;
 
   constructor(data) {
+    console.log(data);
     if (data?.emails) {
       this.email = data?.emails[0]?.value;
     }
