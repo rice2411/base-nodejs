@@ -15,7 +15,7 @@ export default class FacebookRequestDTO {
     const email = data.emails[0].value;
     const avatar = data?.photos[0]?.value;
     if (email) {
-      this.email = data.emails[0].value;
+      this.email = email;
     }
     if (avatar) {
       this.avatar = avatar;
