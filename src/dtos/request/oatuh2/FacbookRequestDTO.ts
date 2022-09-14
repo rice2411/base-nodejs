@@ -12,7 +12,8 @@ export default class FacebookRequestDTO {
   public type_account?: string;
 
   constructor(data) {
-    const email = data.emails[0].value;
+    console.log(data);
+    const email = data?.emails[0]?.value;
     const avatar = data?.photos[0]?.value;
     if (email) {
       this.email = email;
