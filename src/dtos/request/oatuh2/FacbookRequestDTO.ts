@@ -13,14 +13,14 @@ export default class FacebookRequestDTO {
 
   constructor(data) {
     console.log(data);
-    const email = data?.emails[0]?.value;
-    const avatar = data?.photos[0]?.value;
-    if (email) {
-      this.email = email;
-    }
-    if (avatar) {
-      this.avatar = avatar;
-    }
+    // const email = data?.emails[0]?.value;
+    // const avatar = data?.photos[0]?.value;
+    // if (email) {
+    //   this.email = email;
+    // }
+    // if (avatar) {
+    //   this.avatar = avatar;
+    // }
     this.facebook_id = data?.id;
     this.first_name = data?.name.familyName;
     this.last_name = data?.name.givenName;
