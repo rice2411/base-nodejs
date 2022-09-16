@@ -24,8 +24,9 @@ const oauth2Controller = {
       const response = await oauth2Service.success(data);
       const secret = env.jwt.secret;
       const expire_in = env.jwt.expiresIn;
+      console.log(response);
       const payload = {
-        data: response._doc,
+        data: response._doc ? response._doc : response,
         secret: secret,
         expire_in: expire_in,
       };
