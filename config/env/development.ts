@@ -5,7 +5,7 @@ const { NODE_RICE_APP_PORT, NODE_RICE_APP_HOST, NODE_RICE_APP_URI } =
 
 export default {
   env: "development",
-  db: `mongodb://localhost:27017/CompanyDB`,
+  db: `mongodb+srv://unclerice:023657@cluster0.q7mqbnf.mongodb.net/CompanyDB?retryWrites=true&w=majority`,
   port: NODE_RICE_APP_PORT,
   app_host: NODE_RICE_APP_HOST,
   app_uri: NODE_RICE_APP_URI,

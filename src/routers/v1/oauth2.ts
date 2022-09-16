@@ -25,6 +25,6 @@ router
   .get(passport.authenticate("github", CALLBACK_URIS));
 
 router.route("/success").get(oauth2Controller.success);
-router.route("/fail").get(oauth2Controller.fail);
+router.route("/login").post(oauth2Controller.login);
 
 export default router;
