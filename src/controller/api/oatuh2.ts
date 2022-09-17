@@ -4,6 +4,7 @@ import env from "../../../config/env";
 import oauth2Service from "../../service/oauth2";
 import TokenDataResponseDTO from "../../dtos/response/token/TokenDataResponseDTO";
 import tokenService from "../../service/token";
+import { PROVIDER } from "../../constants/provider";
 
 const oauth2Controller = {
   success: async (req, res, next) => {
@@ -21,15 +22,17 @@ const oauth2Controller = {
   login: async (req, res, next) => {
     try {
       const data = req.body;
-      const response = await oauth2Service.success(data);
+
+      const response = await oauth2Service.get(data);
+
       const secret = env.jwt.secret;
       const expire_in = env.jwt.expiresIn;
-      console.log(response);
       const payload = {
-        data: response._doc ? response._doc : response,
+        data: response._doc,
         secret: secret,
         expire_in: expire_in,
       };
+
       const tokenData = new TokenDataResponseDTO(payload);
       const tokenResult = tokenService.generateToken(tokenData);
       return res.success(BaseSuccesMessage.SUCCESS, tokenResult);

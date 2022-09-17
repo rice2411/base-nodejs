@@ -71,7 +71,6 @@ const userController = {
       const user = await userService.get_me(req);
       return res.success(BaseSuccesMessage.SUCCESS, user);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },

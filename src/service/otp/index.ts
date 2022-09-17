@@ -87,7 +87,6 @@ const otpService: IOTPSerivce = {
         return Promise.reject(new Error(AuthErrorMessage.EXPIRED_OTP));
 
       if (!HashFunction.verify(OTPRequest.otp, otp.otp)) {
-        console.log(HashFunction.verify(OTPRequest.otp, otp.otp));
         return Promise.reject(new Error(AuthErrorMessage.OTP_NOT_MATCH));
       }
 

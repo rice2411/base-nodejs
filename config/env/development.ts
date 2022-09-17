@@ -45,8 +45,8 @@ export default {
     callback_uri: "/api/v1/oauth2/facebook/callback",
   },
   github: {
-    client_id: "716df12f71fc67a458e8",
-    client_secret: "378a7919af48f982fad7a57630fbd34e1a91ea55",
+    client_id: "f33c52f643a2e0a1b86c",
+    client_secret: "29fb250dfe8d9d7adb7995d1f0e161511eda5811",
     callback_uri: "/api/v1/oauth2/github/callback",
   },
 };

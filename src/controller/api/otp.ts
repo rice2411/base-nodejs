@@ -34,7 +34,6 @@ const otpController = {
       const OTPRequest = new OTPRequestDTO(req.body);
 
       const OTPResponse = await otpService.verify(OTPRequest);
-      console.log(OTPResponse);
       const payload = {
         data: OTPResponse,
         secret: env.otp.secret,
