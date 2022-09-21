@@ -49,4 +49,8 @@ export default {
     client_secret: "378a7919af48f982fad7a57630fbd34e1a91ea55",
     callback_uri: "/api/v1/oauth2/github/callback",
   },
+  oauth2Jwt: {
+    secret: "e342cc8d-e3d0-4b8f-be36-e3e189ca3de6",
+    expiresIn: "1m",
+  },
 };

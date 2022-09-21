@@ -12,8 +12,18 @@ const oauth2Controller = {
       const data = req.user;
       const app_host = env.app_host;
       await oauth2Service.success(data);
+
+      const secret = env.oauth2Jwt.secret;
+      const expire_in = env.oauth2Jwt.expiresIn;
+      const payload = {
+        data: data,
+        secret: secret,
+        expire_in: expire_in,
+      };
+      const tokenData = new TokenDataResponseDTO(payload);
+      const { token }: any = tokenService.generateToken(tokenData);
       return res.redirect(
-        `${app_host}/oauth2/id=${data.id}?provider=${data.provider}`
+        `${app_host}/oauth2/token=${token}?provider=${data.provider}`
       );
     } catch (err) {
       next(err);
@@ -22,8 +32,8 @@ const oauth2Controller = {
   login: async (req, res, next) => {
     try {
       const data = req.body;
-
-      const response = await oauth2Service.get(data);
+      const info = tokenService.verifyToken(data.token, env.oauth2Jwt.secret);
+      const response = await oauth2Service.get(info);
 
       const secret = env.jwt.secret;
       const expire_in = env.jwt.expiresIn;

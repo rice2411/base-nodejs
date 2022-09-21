@@ -24,6 +24,10 @@ export default {
     secret: "16c2ae54-4f41-4641-b922-bdf979fe063c",
     expiresIn: "30m",
   },
+  oauth2Jwt: {
+    secret: "e342cc8d-e3d0-4b8f-be36-e3e189ca3de6",
+    expiresIn: "1m",
+  },
   sms: {
     sid: "AC01078c94d9b3781bdf184750450fcbd6",
     auth_token: "4ab7deffc7428b3c6cb6ea4de7119787",
